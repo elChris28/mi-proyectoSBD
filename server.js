@@ -136,13 +136,22 @@ let pedidosListos = { cocinero_1: [], cocinero_2: [] };  // Lista de pedidos com
 const categoriasCocinero1 = [
   "Platos_CHICOS", 
   "Platos_CHICOS_CHOCLO", 
-  "Platos_MIXTOS"
+  "Platos_MIXTOS",
+  "Platos_Completos_1P",
+  "Platos_Completos_2P",
+  "Platos_Familares_2",
+  "Platos_Familares_4",
+  "BEBIDAS_M"
 ];
 
 const categoriasCocinero2 = [
-  "Platos_CHAUFA", 
-  "Platos_SALCHIPAPAS", 
-  "Platos_BROASTER"
+  "Platos_CARTA",
+  "Platos_POBRE",
+  "Platos_CHAUFA",
+  "Platos_SOPAS", 
+  "Platos_BROASTER",
+  "Platos_SALCHIPAPAS",
+  "BEBIDAS_TIO"
 ];
 
 // Almacenar qué cliente pertenece a qué rol

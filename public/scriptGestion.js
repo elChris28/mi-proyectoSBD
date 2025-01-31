@@ -26,6 +26,8 @@ const platosMenu = {
     { nombre: "Porción de mollejita", precio: 13 },
     { nombre: "Porción de pancho", precio: 4 },
     { nombre: "1P.Anti", precio: 7 },
+    { nombre: "tajada de choclo", precio: 0.50 },
+    { nombre: "Choclo entero", precio: 4 },
   ],
   Platos_CHICOS_CHOCLO: [
     { nombre: "Porción de pancita + choclo", precio: 13.5 },
@@ -68,12 +70,27 @@ const platosMenu = {
     { nombre: "LOMO DE CARNE", precio: 13 },
     { nombre: "SALTADO DE POLLO", precio: 12 },
     { nombre: "LOMO DE CARNE A LO POBRE", precio: 16 },
-    { nombre: "SALTADO DE POLLO A LO POBRE", precio: 15 },
+    { nombre: "SALTADO DE POLLO A LO POBRE", precio: 16 },
     { nombre: "BISTECK A LO POBRE", precio: 16 },
     { nombre: "POLLO A LA PLANCHA A LO POBRE", precio: 16 },
     { nombre: "POLLO A LA PLANCHA ", precio: 12 },
     { nombre: "TALLARIN SALTADO DE CARNE", precio: 13 },
     { nombre: "TALLARIN SALTADO DE POLLO", precio: 12 },
+  ],
+  Platos_POBRE: [
+    { nombre: "LOMO DE CARNE A LO POBRE (FRITO)", precio: 16 },
+    { nombre: "SALTADO DE POLLO A LO POBRE (INGLESA)", precio: 16 },
+    { nombre: "BISTECK A LO POBRE (FRITO)", precio: 16 },
+    { nombre: "BISTECK A LO POBRE (INGLESA)", precio: 16 },
+    { nombre: "POLLO A LA PLANCHA A LO POBRE (FRITO)", precio: 16 },
+    { nombre: "POLLO A LA PLANCHA A LO POBRE (INGLESA)", precio: 16 },
+    { nombre: "BROASTER POBRE (CON ARROZ) (INGLESA) ", precio: 14 },
+    { nombre: "BROASTER POBRE (CON ARROZ) (FRITO) ", precio: 14 },
+    { nombre: "BROASTER POBRE (PURA PAPA) (INGLESA)", precio: 14 },
+    { nombre: "BROASTER POBRE (PURA PAPA) (FRITO)", precio: 14 },
+    { nombre: "SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 11 },
+    { nombre: "SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 11 },
+
   ],
   Platos_CHAUFA: [
     { nombre: "CHAUFA DE POLLO", precio: 10 },
@@ -99,19 +116,17 @@ const platosMenu = {
     { nombre: "PECHO + ARROZ + PAPA", precio: 10 },
     { nombre: "PECHO + PAPA", precio: 10 },
     { nombre: "ALITA + ARROZ + PAPA", precio: 10 },
-    { nombre: "BROASTER POBRE (PURA PAPA)", precio: 14 },
-    { nombre: "BROASTER POBRE (CON ARROZ)", precio: 14 },
-    { nombre: "CHICHARRON DE POLLO POBRE (PURA PAPA)", precio: 13 },
-    { nombre: "CHICHARRON DE POLLO POBRE (CON ARROZ)", precio: 13 },
+    { nombre: "CHICHARRON DE POLLO (PURA PAPA)", precio: 13 },
+    { nombre: "CHICHARRON DE POLLO (CON ARROZ)", precio: 13 },
     { nombre: "MOSTRITO BROASTER", precio: 11 },
   ],
   Platos_SALCHIPAPAS: [
     { nombre: "CLASICA", precio: 6.5 },
     { nombre: "MIXTA", precio: 9 },
     { nombre: "A LO POBRE", precio: 10 },
-    { nombre: "MIXTA A LO POBRE", precio: 11 },
+    { nombre: "PORCION ARROZ", precio: 4 },
   ],
-  BEBIDAS: [
+  BEBIDAS_M: [
     { nombre: "personal Inka", precio: 2.5 },
     { nombre: "Personal coka kola", precio: 2.5 },
     { nombre: "Gordita", precio: 5 },
@@ -120,13 +135,18 @@ const platosMenu = {
     { nombre: "1LT Coka kola", precio: 7 },
     { nombre: "1 1/2 LT Inka", precio: 9 },
     { nombre: "1 1/2 LT Coka kola", precio: 9 },
+  ],
+  BEBIDAS_TIO :[
     { nombre: "1 Lt Chicha", precio: 7 },
+    { nombre: "1/2 Lt Chicha", precio: 3.5 },
+    { nombre: "Vaso de Chicha", precio: 1.5 },
     { nombre: "Café", precio: 2.5 },
     { nombre: "Té", precio: 2 },
     { nombre: "Anis", precio: 2 },
     { nombre: "Manzanilla", precio: 2 },
     { nombre: "Limonada", precio: 6 },
-  ],
+
+  ]
 };
 
 let mesas = []; // Recibido desde el servidor
