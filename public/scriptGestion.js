@@ -178,24 +178,28 @@ function gestionarMesa(mesa) {
   menuContainer.classList.remove("hidden");
   mesaIdElement.textContent = mesa.id;
 
-  // Renderizar la lista de platos con botón de enviar por plato
+  // Renderizar la lista de platos con botones individuales
   platosList.innerHTML = mesa.platos
     .map(
-      (plato, index) =>
-        `<li>${plato.nombre} - $${plato.precio}
+      (plato, index) => `
+        <li>
+          ${plato.nombre} - $${plato.precio}
           <button class="btn enviar-plato" onclick="enviarPlatoACocina(${mesa.id}, ${index})">
             Enviar
           </button>
-          <button class="btn eliminar" onclick="eliminarPlato(${mesa.id}, ${index})">X</button>
-        </li>`
+          <button class="btn eliminar" onclick="eliminarPlato(${mesa.id}, ${index})">
+            X
+          </button>
+        </li>
+      `
     )
     .join("");
 
-  // Botón separado para enviar todos los platos
+  // Botón separado para enviar todos los platos uno por uno
   platosList.innerHTML += `
     <div class="contenedor-boton">
-      <button class="btn enviar-todos" onclick="enviarPedidoACocina(${mesa.id})">
-        Enviar Todos a Cocina
+      <button class="btn enviar-todos" onclick="enviarTodosLosPlatosACocina(${mesa.id})">
+        Enviar todos a cocina
       </button>
     </div>
   `;
@@ -204,7 +208,7 @@ function gestionarMesa(mesa) {
   const totalPlatos = mesa.platos.reduce((acc, plato) => acc + plato.precio, 0);
   platosList.innerHTML += `<li><strong>Total: $${totalPlatos}</strong></li>`;
 
-  // Renderizar menú (categorías o platos)
+  // Renderizar el menú (categorías o platos)
   renderizarMenu(mesa);
 
   // Configurar botones de estado y confirmación de pago
@@ -333,19 +337,42 @@ function eliminarVenta(index) {
 }
 
 
-function enviarPedidoACocina(mesaId) {
+function enviarTodosLosPlatosACocina(mesaId) {
   const mesa = mesas.find((m) => m.id === mesaId);
-  if (mesa.platos.length === 0) {
+
+  if (!mesa || mesa.platos.length === 0) {
     alert("No hay platos para enviar a la cocina.");
     return;
   }
 
-  socket.emit("enviarPedido", {
-    mesaId: mesa.id,
-    platos: mesa.platos.map((plato) => plato.nombre), // Enviar todos los platos
+  // Enviar cada plato individualmente
+  mesa.platos.forEach((plato) => {
+    // Identificar la categoría del plato
+    let categoriaAsignada = null;
+
+    for (const categoria in platosMenu) {
+      if (platosMenu[categoria].some((p) => p.nombre === plato.nombre)) {
+        categoriaAsignada = categoria;
+        break;
+      }
+    }
+
+    if (!categoriaAsignada) {
+      console.error(`El plato "${plato.nombre}" no pertenece a una categoría válida.`);
+      return;
+    }
+
+    // Enviar el pedido del plato individualmente
+    socket.emit("enviarPedido", {
+      mesaId: mesa.id,
+      categorias: [categoriaAsignada],
+      platos: [plato.nombre],
+    });
+
+    console.log(`Plato "${plato.nombre}" de la mesa ${mesa.id} enviado a cocina.`);
   });
 
-  alert(`Todos los platos de la mesa ${mesa.id} han sido enviados a cocina.`);
+  alert(`Todos los platos de la mesa ${mesa.id} han sido enviados a la cocina uno por uno.`);
 }
 
 
@@ -359,8 +386,24 @@ function enviarPlatoACocina(mesaId, platoIndex) {
     return;
   }
 
+  // Buscar la categoría del plato
+  let categoriaSeleccionada = null;
+
+  for (const categoria in platosMenu) {
+    if (platosMenu[categoria].some((p) => p.nombre === plato.nombre)) {
+      categoriaSeleccionada = categoria;
+      break;
+    }
+  }
+
+  if (!categoriaSeleccionada) {
+    alert("Debe seleccionar una categoría válida.");
+    return;
+  }
+
   socket.emit("enviarPedido", {
     mesaId: mesa.id,
+    categorias: [categoriaSeleccionada], // Enviar una sola categoría
     platos: [plato.nombre],  // Solo enviar este plato
   });
 

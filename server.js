@@ -129,44 +129,108 @@ function getLocalIPAddress() {
 }
 
 let pedidosCocina = [];  // Lista de pedidos pendientes
-let pedidosListos = [];  // Lista de pedidos completados
+let pedidosListos = { cocinero_1: [], cocinero_2: [] };  // Lista de pedidos completados
+
+
+// Asignación de platos por cocinero
+const categoriasCocinero1 = [
+  "Platos_CHICOS", 
+  "Platos_CHICOS_CHOCLO", 
+  "Platos_MIXTOS"
+];
+
+const categoriasCocinero2 = [
+  "Platos_CHAUFA", 
+  "Platos_SALCHIPAPAS", 
+  "Platos_BROASTER"
+];
+
+// Almacenar qué cliente pertenece a qué rol
+const cocinerosConectados = {};
 
 io.on("connection", (socket) => {
   console.log("Cliente conectado");
 
-  // Enviar pedidos actuales y completados al cliente recién conectado
-  socket.emit("pedidosCocina", pedidosCocina);
-  socket.emit("pedidosListos", pedidosListos);
+  // Asignar rol al cocinero conectado
+  socket.on("rolCocinero", (rol) => {
+    cocinerosConectados[socket.id] = rol;
 
-  // Recibir nuevos pedidos
+    // Enviar pedidos pendientes y listos correspondientes al rol
+    socket.emit("pedidosCocina", pedidosCocina.filter((pedido) => pedido.cocinero === rol));
+    socket.emit("pedidosListos", pedidosListos[rol]);
+  });
+
+  // Recibir pedidos y enviarlos a cada cocinero según las categorías
   socket.on("enviarPedido", (pedido) => {
-    pedidosCocina.push(pedido);
-    io.emit("pedidosCocina", pedidosCocina);
+    // Dividir los platos por cocinero según categorías
+    const platosCocinero1 = pedido.platos.filter((plato) =>
+      categoriasCocinero1.some((cat) => pedido.categorias.includes(cat))
+    );
+    const platosCocinero2 = pedido.platos.filter((plato) =>
+      categoriasCocinero2.some((cat) => pedido.categorias.includes(cat))
+    );
+
+    if (platosCocinero1.length > 0) {
+      pedidosCocina.push({
+        id: generateUniqueId(),
+        mesaId: pedido.mesaId,
+        platos: platosCocinero1,
+        cocinero: "cocinero_1"
+      });
+      actualizarPedidosCocinero("cocinero_1");
+    }
+
+    if (platosCocinero2.length > 0) {
+      pedidosCocina.push({
+        id: generateUniqueId(),
+        mesaId: pedido.mesaId,
+        platos: platosCocinero2,
+        cocinero: "cocinero_2"
+      });
+      actualizarPedidosCocinero("cocinero_2");
+    }
   });
 
-  // Marcar pedido como listo
-  socket.on("pedidoListo", (index) => {
-    const pedidoCompletado = pedidosCocina.splice(index, 1)[0];
-    pedidosListos.push(pedidoCompletado);
-    
-    io.emit("pedidosCocina", pedidosCocina);
-    io.emit("pedidosListos", pedidosListos);
+  // Marcar un pedido como listo
+  socket.on("pedidoListo", ({ pedidoId, cocinero }) => {
+    const index = pedidosCocina.findIndex(p => p.id === pedidoId && p.cocinero === cocinero);
+    if (index !== -1) {
+      const pedidoCompletado = pedidosCocina.splice(index, 1)[0];
+      pedidosListos[cocinero].push(pedidoCompletado);
+      actualizarPedidosCocinero(cocinero);
+    }
   });
 
-  // Eliminar un pedido listo individualmente
-  socket.on("eliminarPedidoListo", (index) => {
-    pedidosListos.splice(index, 1);
-    io.emit("pedidosListos", pedidosListos);
+  // Eliminar un pedido listo
+  socket.on("eliminarPedidoListo", ({ index, cocinero }) => {
+    pedidosListos[cocinero].splice(index, 1);
+    actualizarPedidosCocinero(cocinero);
   });
 
   // Eliminar todos los pedidos listos
-  socket.on("eliminarTodosPedidosListos", () => {
-    pedidosListos = [];
-    io.emit("pedidosListos", pedidosListos);
+  socket.on("eliminarTodosPedidosListos", (cocinero) => {
+    pedidosListos[cocinero] = [];
+    actualizarPedidosCocinero(cocinero);
   });
 
+  // Desconectar
   socket.on("disconnect", () => {
     console.log("Cliente desconectado");
+    delete cocinerosConectados[socket.id];
   });
+
+  // Función para actualizar los pedidos de un cocinero en tiempo real
+  function actualizarPedidosCocinero(cocinero) {
+    for (const [id, rol] of Object.entries(cocinerosConectados)) {
+      if (rol === cocinero) {
+        io.to(id).emit("pedidosCocina", pedidosCocina.filter(p => p.cocinero === cocinero));
+        io.to(id).emit("pedidosListos", pedidosListos[cocinero]);
+      }
+    }
+  }
+
+  function generateUniqueId() {
+    return "pedido_" + Math.random().toString(36).substr(2, 9);
+  }
 });
 
