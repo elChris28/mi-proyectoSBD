@@ -19,134 +19,48 @@ const btnLogout = document.getElementById("logout-button");
 
 // Datos iniciales
 const platosMenu = {
-  Platos_CHICOS: [
-    { nombre: "Porción de pancita", precio: 13 },
-    { nombre: "Porción de anticucho", precio: 13 },
-    { nombre: "Porción de rachi", precio: 15 },
-    { nombre: "Porción de mollejita", precio: 13 },
-    { nombre: "Porción de pancho", precio: 4 },
-    { nombre: "1P.Anti", precio: 7 },
-    { nombre: "tajada de choclo", precio: 0.50 },
-    { nombre: "Choclo entero", precio: 4 },
-  ],
-  Platos_CHICOS_CHOCLO: [
-    { nombre: "Porción de pancita + choclo", precio: 13.5 },
-    { nombre: "Porción de anticucho + choclo", precio: 13.5 },
-    { nombre: "Porción de rachi + choclo", precio: 15.5 },
-    { nombre: "Porción de mollejita + choclo", precio: 13.5 },
-    { nombre: "Porción de pancho + choclo", precio: 4.5 },
-    { nombre: "1P.Anti + choclo", precio: 7.5 },
-  ],
-  Platos_MIXTOS: [
-    { nombre: "Pollo a la parrilla", precio: 15 },
-    { nombre: "rachi + Mollejita + choclo", precio: 20 },
-    { nombre: "pancita + Mollejita + choclo", precio: 17 },
-    { nombre: "pancita + rachi + choclo", precio: 17 },
-    { nombre: "1P.Anti + Rachi + choclo", precio: 17 },
-    { nombre: "1P.Anti +  Mollejita + choclo", precio: 17 },
-    { nombre: "1P.Anti + Pancita + choclo", precio: 17 },
-    { nombre: "1P.Anti + 2 panchos + Pancita + choclo", precio: 17 },
-  ],
-  Platos_Completos_1P: [
-    { nombre: "1P.Anti + Pancita + Rachi + Mollejita + choclo", precio: 30 },
-    { nombre: "1P.Anti + Rachi + Mollejita + choclo", precio: 23 },
-    { nombre: "1P.Anti + Pancita + Mollejita + choclo", precio: 23 },
-    { nombre: "1P.Anti + Pancita + Rachi + choclo", precio: 23 },
-  ],
-  Platos_Completos_2P: [
-    { nombre: "Pancita + Mollejita + Rachi + choclo", precio: 22 },
-    { nombre: "2P.Anti + Mollejita + choclo", precio: 20 },
-    { nombre: "2P.Anti + Rachi + choclo", precio: 20 },
-    { nombre: "2P.Anti + Pancita + choclo", precio: 20 },
-  ],
-  Platos_Familares_2: [
-    { nombre: "2P.Anti + P. + R. + M. + choclo + Gaseosa 1/2L", precio: 45 },
-    { nombre: "3P.Anti + P. + R. + choclo + Gaseosa Personal", precio: 40 },
-  ],
-  Platos_Familares_4: [
-    { nombre: "6P.Anti + P. + R. + M. + choclos + Gaseosa 1L", precio: 55 },
-  ],
-  Platos_CARTA: [
-    { nombre: "LOMO DE CARNE", precio: 13 },
-    { nombre: "SALTADO DE POLLO", precio: 12 },
-    { nombre: "LOMO DE CARNE A LO POBRE", precio: 16 },
-    { nombre: "SALTADO DE POLLO A LO POBRE", precio: 16 },
-    { nombre: "BISTECK A LO POBRE", precio: 16 },
-    { nombre: "POLLO A LA PLANCHA A LO POBRE", precio: 16 },
-    { nombre: "POLLO A LA PLANCHA ", precio: 12 },
-    { nombre: "TALLARIN SALTADO DE CARNE", precio: 13 },
-    { nombre: "TALLARIN SALTADO DE POLLO", precio: 12 },
-  ],
-  Platos_POBRE: [
-    { nombre: "LOMO DE CARNE A LO POBRE (FRITO)", precio: 16 },
-    { nombre: "SALTADO DE POLLO A LO POBRE (INGLESA)", precio: 16 },
-    { nombre: "BISTECK A LO POBRE (FRITO)", precio: 16 },
-    { nombre: "BISTECK A LO POBRE (INGLESA)", precio: 16 },
-    { nombre: "POLLO A LA PLANCHA A LO POBRE (FRITO)", precio: 16 },
-    { nombre: "POLLO A LA PLANCHA A LO POBRE (INGLESA)", precio: 16 },
-    { nombre: "BROASTER POBRE (CON ARROZ) (INGLESA) ", precio: 14 },
-    { nombre: "BROASTER POBRE (CON ARROZ) (FRITO) ", precio: 14 },
-    { nombre: "BROASTER POBRE (PURA PAPA) (INGLESA)", precio: 14 },
-    { nombre: "BROASTER POBRE (PURA PAPA) (FRITO)", precio: 14 },
-    { nombre: "SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 11 },
-    { nombre: "SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 11 },
+  Platos_Anticucheria: {
+    Platos_CHICOS: [
+      { nombre: "Porción de pancita", precio: 13 },
+      { nombre: "Porción de anticucho", precio: 13 },
+      { nombre: "Porción de rachi", precio: 15 },
+    ],
+    Platos_CHICOS_CHOCLO: [
+      { nombre: "Porción de pancita + choclo", precio: 13.5 },
+      { nombre: "Porción de anticucho + choclo", precio: 13.5 },
+      { nombre: "Porción de rachi + choclo", precio: 15.5 },
+    ],
+    Platos_MIXTOS: [
+      { nombre: "Pollo a la parrilla", precio: 15 },
+      { nombre: "rachi + Mollejita + choclo", precio: 20 },
+    ],
+  },
 
-  ],
-  Platos_CHAUFA: [
-    { nombre: "CHAUFA DE POLLO", precio: 10 },
-    { nombre: "CHAUFA DE CARNE", precio: 11 },
-    { nombre: "CHAUFA DE CARNE Y POLLO", precio: 13 },
-  ],
-  Platos_SOPAS: [
-    { nombre: "MINUTA DE CARNE C/ LECHE", precio: 10 },
-    { nombre: "MINUTA DE POLLO C/LECHE", precio: 10 },
-    { nombre: "MINUTA DE CARNE Y POLLO C/LECHE", precio: 11 },
-    { nombre: "SUSTANCIA DE POLLO ", precio: 9.50 },
-    { nombre: "SUSTANCIA DE CARNE ", precio: 9.50 },
-    { nombre: "SUSTANCIA DE CARNE Y POLLO", precio: 10 },
-    { nombre: "DIETA", precio: 10 },
-  ],
-  Platos_BROASTER: [
-    { nombre: "ALITA + ARROZ + PAPA", precio: 9 },
-    { nombre: "ALITA + PAPA", precio: 9 },
-    { nombre: "PIERNA + ARROZ + PAPA", precio: 10 },
-    { nombre: "PIERNA + PAPA", precio: 10 },
-    { nombre: "ENTREPIERNA + ARROZ + PAPA", precio: 10 },
-    { nombre: "ENTREPIERNA + PAPA", precio: 10 },
-    { nombre: "PECHO + ARROZ + PAPA", precio: 10 },
-    { nombre: "PECHO + PAPA", precio: 10 },
-    { nombre: "ALITA + ARROZ + PAPA", precio: 10 },
-    { nombre: "CHICHARRON DE POLLO (PURA PAPA)", precio: 13 },
-    { nombre: "CHICHARRON DE POLLO (CON ARROZ)", precio: 13 },
-    { nombre: "MOSTRITO BROASTER", precio: 11 },
-  ],
-  Platos_SALCHIPAPAS: [
-    { nombre: "CLASICA", precio: 6.5 },
-    { nombre: "MIXTA", precio: 9 },
-    { nombre: "A LO POBRE", precio: 10 },
-    { nombre: "PORCION ARROZ", precio: 4 },
-  ],
-  BEBIDAS_M: [
-    { nombre: "personal Inka", precio: 2.5 },
-    { nombre: "Personal coka kola", precio: 2.5 },
-    { nombre: "Gordita", precio: 5 },
-    { nombre: "Yumbo", precio: 5 },
-    { nombre: "1LT INKA", precio: 7 },
-    { nombre: "1LT Coka kola", precio: 7 },
-    { nombre: "1 1/2 LT Inka", precio: 9 },
-    { nombre: "1 1/2 LT Coka kola", precio: 9 },
-  ],
-  BEBIDAS_TIO :[
-    { nombre: "1 Lt Chicha", precio: 7 },
-    { nombre: "1/2 Lt Chicha", precio: 3.5 },
-    { nombre: "Vaso de Chicha", precio: 1.5 },
-    { nombre: "Café", precio: 2.5 },
-    { nombre: "Té", precio: 2 },
-    { nombre: "Anis", precio: 2 },
-    { nombre: "Manzanilla", precio: 2 },
-    { nombre: "Limonada", precio: 6 },
+  Platos_Comidas: {
+    Platos_CARTA: [
+      { nombre: "LOMO DE CARNE", precio: 13 },
+      { nombre: "SALTADO DE POLLO", precio: 12 },
+    ],
+    Platos_CHAUFA: [
+      { nombre: "CHAUFA DE POLLO", precio: 10 },
+      { nombre: "CHAUFA DE CARNE", precio: 11 },
+    ],
+    Platos_BROASTER: [
+      { nombre: "ALITA + ARROZ + PAPA", precio: 9 },
+      { nombre: "ALITA + PAPA", precio: 9 },
+    ],
+  },
 
-  ]
+  Bebidas: {
+    BEBIDAS_M: [
+      { nombre: "personal Inka", precio: 2.5 },
+      { nombre: "Personal coka kola", precio: 2.5 },
+    ],
+    BEBIDAS_TIO: [
+      { nombre: "1 Lt Chicha", precio: 7 },
+      { nombre: "1/2 Lt Chicha", precio: 3.5 },
+    ],
+  }
 };
 
 let mesas = []; // Recibido desde el servidor
@@ -154,6 +68,7 @@ let ventas = []; // Recibido desde el servidor
 let totalVentas = 0; // Calculado dinámicamente
 
 let categoriaSeleccionada = null; // Para rastrear la categoría actual
+let subcategoriaSeleccionada = null; // Para rastrear la subcategoría actual
 
 // Escuchar el historial de ventas sincronizado
 socket.on("historialVentas", (data) => {
@@ -198,24 +113,25 @@ function gestionarMesa(mesa) {
   menuContainer.classList.remove("hidden");
   mesaIdElement.textContent = mesa.id;
 
-  // Renderizar la lista de platos con botones individuales
+  // Renderizar la lista de platos con botones de cantidad y envío
   platosList.innerHTML = mesa.platos
     .map(
       (plato, index) => `
-        <li>
-          ${plato.nombre} - $${plato.precio}
-          <button class="btn enviar-plato" onclick="enviarPlatoACocina(${mesa.id}, ${index})">
-            Enviar
-          </button>
-          <button class="btn eliminar" onclick="eliminarPlato(${mesa.id}, ${index})">
-            X
-          </button>
-        </li>
+        <li class="plato-item">
+        <span class="plato-nombre">${plato.nombre}</span>
+        <span class="plato-precio">$${plato.precio} x ${plato.cantidad}</span>
+        <div class="cantidad-container">
+          <button class="btn-cantidad" onclick="aumentarCantidad(${mesa.id}, ${index})">+</button>
+          <button class="btn-cantidad" onclick="disminuirCantidad(${mesa.id}, ${index})">-</button>
+        </div>
+        <button class="btn-enviar" onclick="enviarPlatoACocina(${mesa.id}, ${index})">Enviar</button>
+        <button class="btn eliminar" onclick="eliminarPlato(${mesa.id}, ${index})">X</button>
+      </li>
       `
     )
     .join("");
 
-  // Botón separado para enviar todos los platos uno por uno
+  // Botón para enviar todos los platos a cocina
   platosList.innerHTML += `
     <div class="contenedor-boton">
       <button class="btn enviar-todos" onclick="enviarTodosLosPlatosACocina(${mesa.id})">
@@ -225,10 +141,9 @@ function gestionarMesa(mesa) {
   `;
 
   // Mostrar el total de los platos de la mesa
-  const totalPlatos = mesa.platos.reduce((acc, plato) => acc + plato.precio, 0);
+  const totalPlatos = mesa.platos.reduce((acc, plato) => acc + plato.precio * plato.cantidad, 0);
   platosList.innerHTML += `<li><strong>Total: $${totalPlatos}</strong></li>`;
 
-  // Renderizar el menú (categorías o platos)
   renderizarMenu(mesa);
 
   // Configurar botones de estado y confirmación de pago
@@ -240,27 +155,89 @@ function gestionarMesa(mesa) {
 // Agregar plato a una mesa
 function agregarPlato(mesaId, platoNombre, platoPrecio) {
   const mesa = mesas.find((m) => m.id === mesaId);
-  mesa.platos.push({ nombre: platoNombre, precio: platoPrecio }); // Agregar plato con precio
-  mesa.estado = "Ocupado"; // Cambiar automáticamente el estado a Ocupado
-  socket.emit("actualizarMesa", mesa); // Notificar al servidor sobre el cambio
+  
+  // Buscar si el plato ya está en la mesa
+  let platoExistente = mesa.platos.find((p) => p.nombre === platoNombre);
+  
+  if (platoExistente) {
+    // Si ya existe, aumentar la cantidad
+    platoExistente.cantidad += 1;
+  } else {
+    // Si no existe, agregarlo con cantidad 1
+    mesa.platos.push({ nombre: platoNombre, precio: platoPrecio, cantidad: 1 });
+  }
+
+  mesa.estado = "Ocupado"; // Marcar la mesa como ocupada si se agrega un plato
+  socket.emit("actualizarMesa", mesa); // Sincronizar con el servidor
+  gestionarMesa(mesa); // Volver a renderizar la mesa con la lista de platos actualizada
+}
+
+
+function aumentarCantidad(mesaId, platoIndex) {
+  const mesa = mesas.find((m) => m.id === mesaId);
+  mesa.platos[platoIndex].cantidad += 1;
+
+  socket.emit("actualizarMesa", mesa);
   gestionarMesa(mesa);
 }
 
-// Confirmar pago de una mesa
+function disminuirCantidad(mesaId, platoIndex) {
+  const mesa = mesas.find((m) => m.id === mesaId);
+  if (mesa.platos[platoIndex].cantidad > 1) {
+    mesa.platos[platoIndex].cantidad -= 1;
+  } else {
+    // Si la cantidad llega a 1 y se presiona "-", se elimina el plato
+    mesa.platos.splice(platoIndex, 1);
+  }
+
+  // Si ya no hay platos, cambiar estado a "Disponible"
+  if (mesa.platos.length === 0) {
+    mesa.estado = "Disponible";
+  }
+
+  socket.emit("actualizarMesa", mesa);
+  gestionarMesa(mesa);
+}
+
+
+// Confirmar pago de una mesa con selección de método de pago
 function confirmarPago(mesa) {
   if (mesa.platos.length === 0) {
     alert("No hay platos para cobrar.");
     return;
   }
 
+  // Mostrar opciones de método de pago
+  const metodoPago = prompt("Seleccione el método de pago: \n1. Efectivo\n2. Tarjeta\n3. Yape\n4. Plin");
+
+  let metodoSeleccionado = "";
+  switch (metodoPago) {
+    case "1":
+      metodoSeleccionado = "Efectivo";
+      break;
+    case "2":
+      metodoSeleccionado = "Tarjeta";
+      break;
+    case "3":
+      metodoSeleccionado = "Yape";
+      break;
+    case "4":
+      metodoSeleccionado = "Plin";
+      break;
+    default:
+      alert("Método de pago no válido. Intente nuevamente.");
+      return;
+  }
+
   // Calcular el total sumando los precios de los platos
-  const total = mesa.platos.reduce((acc, plato) => acc + plato.precio, 0);
+  const total = mesa.platos.reduce((acc, plato) => acc + (plato.precio * plato.cantidad), 0);
 
   // Enviar los detalles de la venta al servidor
   socket.emit("confirmarPago", {
     mesaId: mesa.id,
     total,
-    platos: mesa.platos.map((plato) => `${plato.nombre} - $${plato.precio}`), // Lista de platos consumidos
+    metodoPago: metodoSeleccionado, // Enviar el método de pago seleccionado
+    platos: mesa.platos.map((plato) => `${plato.nombre} x${plato.cantidad} - $${plato.precio}`), // Lista de platos consumidos
   });
 
   // Vaciar la lista de platos de la mesa
@@ -285,7 +262,8 @@ function actualizarHistorialVentas() {
           <strong>Mesa ${venta.mesaId}</strong><br>
           <em>${venta.fecha}</em><br>
           Platos: ${venta.platos.join(", ")}<br>
-          Total: <strong>$${venta.total}</strong>
+          Total: <strong>$${venta.total}</strong><br>
+          Método de Pago: <strong>${venta.metodoPago}</strong>
           <button class="btn eliminar" onclick="eliminarVenta(${index})">Eliminar</button>
         </li>
       `
@@ -313,23 +291,36 @@ function eliminarPlato(mesaId, platoIndex) {
 
 function renderizarMenu(mesa) {
   if (categoriaSeleccionada === null) {
-    // Mostrar categorías
+    // Mostrar categorías principales
     menuList.innerHTML = Object.keys(platosMenu)
       .map(
-        (categoria) =>
-          `<button class="btn" onclick="seleccionarCategoria('${categoria}', ${mesa.id})">
+        (categoria) => `
+          <button class="btn" onclick="seleccionarCategoria('${categoria}', ${mesa.id})">
             ${categoria}
           </button>`
       )
       .join("");
-  } else {
-    // Mostrar platos dentro de la categoría seleccionada
+  } else if (subcategoriaSeleccionada === null) {
+    // Mostrar subcategorías dentro de la categoría seleccionada
     menuList.innerHTML = `
-      <button class="btn retroceder" onclick="volverACategorias(${mesa.id})">← RETROCEDER</button>
-      ${platosMenu[categoriaSeleccionada]
+      <button class="btn retroceder" onclick="volverACategorias(${mesa.id})">← Retroceder</button>
+      ${Object.keys(platosMenu[categoriaSeleccionada])
         .map(
-          (plato) =>
-            `<button class="btn" onclick="agregarPlato(${mesa.id}, '${plato.nombre}', ${plato.precio})">
+          (subcategoria) => `
+            <button class="btn" onclick="seleccionarSubcategoria('${subcategoria}', ${mesa.id})">
+              ${subcategoria}
+            </button>`
+        )
+        .join("")}
+    `;
+  } else {
+    // Mostrar los platos dentro de la subcategoría seleccionada
+    menuList.innerHTML = `
+      <button class="btn retroceder" onclick="volverASubcategorias(${mesa.id})">← Retroceder</button>
+      ${platosMenu[categoriaSeleccionada][subcategoriaSeleccionada]
+        .map(
+          (plato) => `
+            <button class="btn" onclick="agregarPlato(${mesa.id}, '${plato.nombre}', ${plato.precio})">
               ${plato.nombre} - $${plato.precio}
             </button>`
         )
@@ -344,8 +335,19 @@ function seleccionarCategoria(categoria, mesaId) {
   renderizarMenu(mesas.find((m) => m.id === mesaId));
 }
 
+function seleccionarSubcategoria(subcategoria, mesaId) {
+  subcategoriaSeleccionada = subcategoria;
+  renderizarMenu(mesas.find((m) => m.id === mesaId));
+}
+
 function volverACategorias(mesaId) {
   categoriaSeleccionada = null;
+  subcategoriaSeleccionada = null;
+  renderizarMenu(mesas.find((m) => m.id === mesaId));
+}
+
+function volverASubcategorias(mesaId) {
+  subcategoriaSeleccionada = null;
   renderizarMenu(mesas.find((m) => m.id === mesaId));
 }
 
@@ -365,34 +367,26 @@ function enviarTodosLosPlatosACocina(mesaId) {
     return;
   }
 
-  // Enviar cada plato individualmente
   mesa.platos.forEach((plato) => {
-    // Identificar la categoría del plato
-    let categoriaAsignada = null;
+    // Obtener la categoría y subcategoría correctas
+    const categoriaInfo = encontrarCategoriaYSubcategoria(plato.nombre);
 
-    for (const categoria in platosMenu) {
-      if (platosMenu[categoria].some((p) => p.nombre === plato.nombre)) {
-        categoriaAsignada = categoria;
-        break;
-      }
-    }
-
-    if (!categoriaAsignada) {
-      console.error(`El plato "${plato.nombre}" no pertenece a una categoría válida.`);
+    if (!categoriaInfo) {
+      console.error(`Error: No se encontró una categoría válida para el plato "${plato.nombre}"`);
       return;
     }
 
-    // Enviar el pedido del plato individualmente
+    // Enviar cada plato con su cantidad
     socket.emit("enviarPedido", {
       mesaId: mesa.id,
-      categorias: [categoriaAsignada],
-      platos: [plato.nombre],
+      categorias: [categoriaInfo.categoria, categoriaInfo.subcategoria],
+      platos: [{ nombre: plato.nombre, cantidad: plato.cantidad }],
     });
 
-    console.log(`Plato "${plato.nombre}" de la mesa ${mesa.id} enviado a cocina.`);
+    console.log(`Plato "${plato.nombre}" x${plato.cantidad} de la mesa ${mesa.id} enviado a cocina.`);
   });
 
-  alert(`Todos los platos de la mesa ${mesa.id} han sido enviados a la cocina uno por uno.`);
+  alert(`Todos los platos de la mesa ${mesa.id} han sido enviados a la cocina.`);
 }
 
 
@@ -406,28 +400,33 @@ function enviarPlatoACocina(mesaId, platoIndex) {
     return;
   }
 
-  // Buscar la categoría del plato
-  let categoriaSeleccionada = null;
+  // Obtener la categoría y subcategoría correctas
+  const categoriaInfo = encontrarCategoriaYSubcategoria(plato.nombre);
 
-  for (const categoria in platosMenu) {
-    if (platosMenu[categoria].some((p) => p.nombre === plato.nombre)) {
-      categoriaSeleccionada = categoria;
-      break;
-    }
-  }
-
-  if (!categoriaSeleccionada) {
+  if (!categoriaInfo) {
     alert("Debe seleccionar una categoría válida.");
     return;
   }
 
   socket.emit("enviarPedido", {
     mesaId: mesa.id,
-    categorias: [categoriaSeleccionada], // Enviar una sola categoría
-    platos: [plato.nombre],  // Solo enviar este plato
+    categorias: [categoriaInfo.categoria, categoriaInfo.subcategoria], // Ahora enviamos la categoría correcta
+    platos: [{ nombre: plato.nombre, cantidad: plato.cantidad }],
   });
 
-  alert(`El plato "${plato.nombre}" de la mesa ${mesa.id} ha sido enviado a cocina.`);
+  alert(`El plato "${plato.nombre}" x${plato.cantidad} de la mesa ${mesa.id} ha sido enviado a cocina.`);
+}
+
+
+function encontrarCategoriaYSubcategoria(platoNombre) {
+  for (const categoria in platosMenu) {
+    for (const subcategoria in platosMenu[categoria]) {
+      if (platosMenu[categoria][subcategoria].some((p) => p.nombre === platoNombre)) {
+        return { categoria, subcategoria };
+      }
+    }
+  }
+  return null;
 }
 
 

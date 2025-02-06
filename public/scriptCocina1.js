@@ -22,7 +22,7 @@ function renderizarPedidos(pedidos) {
         .map(pedido => `
           <div class="pedido">
             <strong>Mesa ${pedido.mesaId}</strong>
-            <p>${pedido.platos.join(", ")}</p>
+            <p>${pedido.platos.map(plato => `${plato.nombre} x${plato.cantidad}`).join(", ")}</p>
             <button class="btn-listo" onclick="marcarComoListo('${pedido.id}', 'cocinero_1')">Listo</button>
           </div>
         `)
@@ -37,7 +37,7 @@ function renderizarPedidosListos(pedidos) {
           (pedido, index) => `
             <div class="pedido listo">
               <strong>Mesa ${pedido.mesaId}</strong>
-              <p>${pedido.platos.join(", ")}</p>
+              <p>${pedido.platos.map(plato => `${plato.nombre} x${plato.cantidad}`).join(", ")}</p>
               <button class="btn-eliminar" onclick="eliminarPedidoListo(${index}, 'cocinero_1')">Eliminar</button>
             </div>
           `

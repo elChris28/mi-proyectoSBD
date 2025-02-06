@@ -7,6 +7,49 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+
+const platosMenu = {
+  Platos_Anticucheria: {
+    Platos_CHICOS: [
+      { nombre: "Porción de pancita", precio: 13 },
+      { nombre: "Porción de anticucho", precio: 13 },
+      { nombre: "Porción de rachi", precio: 15 },
+    ],
+    Platos_CHICOS_CHOCLO: [
+      { nombre: "Porción de pancita + choclo", precio: 13.5 },
+      { nombre: "Porción de anticucho + choclo", precio: 13.5 },
+    ],
+    Platos_MIXTOS: [
+      { nombre: "Pollo a la parrilla", precio: 15 },
+      { nombre: "rachi + Mollejita + choclo", precio: 20 },
+    ],
+  },
+  Platos_Comidas: {
+    Platos_CARTA: [
+      { nombre: "LOMO DE CARNE", precio: 13 },
+      { nombre: "SALTADO DE POLLO", precio: 12 },
+    ],
+    Platos_CHAUFA: [
+      { nombre: "CHAUFA DE POLLO", precio: 10 },
+      { nombre: "CHAUFA DE CARNE", precio: 11 },
+    ],
+    Platos_BROASTER: [
+      { nombre: "ALITA + ARROZ + PAPA", precio: 9 },
+      { nombre: "ALITA + PAPA", precio: 9 },
+    ],
+  },
+  Bebidas: {
+    BEBIDAS_M: [
+      { nombre: "personal Inka", precio: 2.5 },
+      { nombre: "Personal coka kola", precio: 2.5 },
+    ],
+    BEBIDAS_TIO: [
+      { nombre: "1 Lt Chicha", precio: 7 },
+      { nombre: "1/2 Lt Chicha", precio: 3.5 },
+    ],
+  }
+};
+
 // Puerto en el que correrá el servidor
 const PORT = 3000;
 
@@ -71,22 +114,23 @@ io.on("connection", (socket) => {
 
 
     // Escuchar la confirmación de pago
-  socket.on("confirmarPago", (data) => {
-    const { mesaId, total, platos } = data;
-
-    // Agregar la venta con detalles adicionales
-    const nuevaVenta = {
-      mesaId,
-      total,
-      fecha: new Date().toLocaleString(), // Fecha y hora en formato legible
-      platos,
-    };
-  
-    ventas.push(nuevaVenta);
+    socket.on("confirmarPago", (data) => {
+      const { mesaId, total, metodoPago, platos } = data;
     
+      // Agregar la venta con detalles adicionales
+      const nuevaVenta = {
+        mesaId,
+        total,
+        metodoPago,  // Guardar el método de pago
+        fecha: new Date().toLocaleString(), // Fecha y hora en formato legible
+        platos,
+      };
+    
+      ventas.push(nuevaVenta);
+      
       // Emitir el historial actualizado a todos los clientes
       io.emit("historialVentas", ventas);
-    
+      
       // Actualizar el estado de la mesa en el servidor
       const mesa = mesas.find((m) => m.id === mesaId);
       if (mesa) {
@@ -171,14 +215,26 @@ io.on("connection", (socket) => {
 
   // Recibir pedidos y enviarlos a cada cocinero según las categorías
   socket.on("enviarPedido", (pedido) => {
-    // Dividir los platos por cocinero según categorías
-    const platosCocinero1 = pedido.platos.filter((plato) =>
-      categoriasCocinero1.some((cat) => pedido.categorias.includes(cat))
-    );
-    const platosCocinero2 = pedido.platos.filter((plato) =>
-      categoriasCocinero2.some((cat) => pedido.categorias.includes(cat))
-    );
-
+    let platosCocinero1 = [];
+    let platosCocinero2 = [];
+  
+    pedido.platos.forEach((plato) => {
+      let categoriaPrincipal = pedido.categorias[0]; // Categoría principal
+      let subcategoriaEncontrada = pedido.categorias[1]; // Subcategoría
+  
+      if (!categoriaPrincipal || !subcategoriaEncontrada) {
+        console.error(`Error: No se encontró la categoría del plato "${plato.nombre}"`);
+        return;
+      }
+  
+      // Asignar el plato al cocinero correspondiente
+      if (categoriasCocinero1.includes(subcategoriaEncontrada)) {
+        platosCocinero1.push(plato);
+      } else if (categoriasCocinero2.includes(subcategoriaEncontrada)) {
+        platosCocinero2.push(plato);
+      }
+    });
+  
     if (platosCocinero1.length > 0) {
       pedidosCocina.push({
         id: generateUniqueId(),
@@ -188,7 +244,7 @@ io.on("connection", (socket) => {
       });
       actualizarPedidosCocinero("cocinero_1");
     }
-
+  
     if (platosCocinero2.length > 0) {
       pedidosCocina.push({
         id: generateUniqueId(),
@@ -202,10 +258,29 @@ io.on("connection", (socket) => {
 
   // Marcar un pedido como listo
   socket.on("pedidoListo", ({ pedidoId, cocinero }) => {
+    // Encontrar el índice del pedido en la lista de pedidos pendientes
     const index = pedidosCocina.findIndex(p => p.id === pedidoId && p.cocinero === cocinero);
+    
     if (index !== -1) {
+      // Remover el pedido de la lista de pedidos pendientes
       const pedidoCompletado = pedidosCocina.splice(index, 1)[0];
-      pedidosListos[cocinero].push(pedidoCompletado);
+  
+      // Verificar si el cocinero tiene una lista de pedidos listos, si no, inicializarla
+      if (!pedidosListos[cocinero]) {
+        pedidosListos[cocinero] = [];
+      }
+  
+      // Agregar el pedido completado a la lista de pedidos listos del cocinero
+      pedidosListos[cocinero].push({
+        mesaId: pedidoCompletado.mesaId,
+        fechaHora: new Date().toLocaleString(), // Agregar la fecha y hora del pedido listo
+        platos: pedidoCompletado.platos.map(plato => ({
+          nombre: plato.nombre,
+          cantidad: plato.cantidad
+        })) // Guardar correctamente nombre y cantidad
+      });
+  
+      // Emitir la actualización en tiempo real a los cocineros
       actualizarPedidosCocinero(cocinero);
     }
   });
@@ -232,7 +307,10 @@ io.on("connection", (socket) => {
   function actualizarPedidosCocinero(cocinero) {
     for (const [id, rol] of Object.entries(cocinerosConectados)) {
       if (rol === cocinero) {
+        // Enviar los pedidos pendientes
         io.to(id).emit("pedidosCocina", pedidosCocina.filter(p => p.cocinero === cocinero));
+        
+        // Enviar los pedidos listos
         io.to(id).emit("pedidosListos", pedidosListos[cocinero]);
       }
     }
