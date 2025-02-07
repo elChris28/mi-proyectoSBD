@@ -136,6 +136,7 @@ h1 {
 .btn.ocupado {
   background-color: #aa2810; /* Verde */
   color: white;
+  font-size: 10px;
 }
 
 .btn.ocupado:hover {
@@ -145,6 +146,7 @@ h1 {
 .btn.disponible {
   background-color: #118f26; /* Amarillo */
   color: #fdfdfd; /* Texto oscuro */
+  font-size: 10px;
 }
 
 .btn.disponible:hover {
@@ -153,7 +155,7 @@ h1 {
 
 .confirmar-pago {
   padding: 10px 20px;
-  font-size: 0.9rem;
+  font-size: 20px;
   border: none;
   border-radius: 8px;
   background: linear-gradient(to right, #44d8a2, #10b981); /* Gradiente verde */
@@ -177,7 +179,7 @@ h1 {
 }
 
 #ventas-container h2 {
-  font-size: 1.5rem;
+  font-size: 20px;
   color: #3b82f6;
   margin-bottom: 15px;
 }
@@ -210,6 +212,7 @@ h1 {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  
 }
 
 #ventas-list li button:hover {
@@ -312,7 +315,7 @@ button:hover {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 10px;  
   cursor: pointer;
 }
 
@@ -471,9 +474,28 @@ button:hover {
     margin-top: 5px;   
   }
 
+  #ventas-container {
+    padding: 10px;
+  }
+
+  #total-ventas {
+    font-size: 16px;
+  }
+
+  #ventas-list li {
+    padding: 12px;
+    font-size: 13px;
+    
+  }
+
+  .EliminarVenta
+  {
+  font-size: 12px;
+  }
+
   #platos-list li {
     font-size: 18px;
-    padding: 6px;
+    
 
   }
 
@@ -513,8 +535,18 @@ button:hover {
 }
 
 .btn.eliminar {
-    width: 32px;
+    width: 30px;
     height: 25px;
 }
+
+.btn.ocupado {
+  font-size: 15px;
+}
+
+
+.btn.disponible {
+  font-size: 15px;
+}
+
 
 }
