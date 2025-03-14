@@ -706,9 +706,9 @@ function imprimirVenta(index) {
           <div class="boleta-header">
             <img src="URL_DEL_LOGO" alt="Logo">
             <h1>Anticucheria Mechita</h1>
-            <p>R.U.C. 10007456085</p>
-            <p>Tel: 980XXXXXX</p>
-            <p>Dir. [Dirección Aquí]</p>
+            <p>R.U.C. 10426045881</p>
+            <p>Tel: 980824104</p>
+            <p>Dir. Pdro. 6 Huascar-SJL</p>
             <p><strong>BOLETA DE VENTA</strong></p>
           </div>
           <div class="boleta-info">
