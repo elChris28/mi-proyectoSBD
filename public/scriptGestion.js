@@ -667,7 +667,10 @@ function encontrarCategoriaYSubcategoria(platoNombre) {
 function imprimirVenta(index) {
   const venta = ventas[index];
 
-  // Formatear el contenido de la boleta con un estilo más moderno
+  // Detectar si el usuario está en un móvil
+  const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  // Contenido de la boleta con botón de impresión en móviles
   const contenido = `
     <html>
       <head>
@@ -685,6 +688,17 @@ function imprimirVenta(index) {
           .boleta-table th { background: #4CAF50; color: white; }
           .boleta-total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 10px; }
           .boleta-footer { text-align: center; margin-top: 20px; font-size: 12px; color: #555; }
+          .btn-imprimir { 
+            display: ${esMovil ? "block" : "none"}; 
+            margin: 20px auto; 
+            padding: 10px 20px; 
+            background: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+          }
         </style>
       </head>
       <body>
@@ -693,9 +707,9 @@ function imprimirVenta(index) {
             <img src="URL_DEL_LOGO" alt="Logo">
             <h1>Anticucheria Mechita</h1>
             <p>R.U.C. 10007456085</p>
-            <p>tef. 980XXXXXX</p>
-            <p>Dir. </p>
-            <p>BOLETA DE VENTA</p>
+            <p>Tel: 980XXXXXX</p>
+            <p>Dir. [Dirección Aquí]</p>
+            <p><strong>BOLETA DE VENTA</strong></p>
           </div>
           <div class="boleta-info">
             <div><strong>Mesa:</strong> ${venta.mesaId}</div>
@@ -726,6 +740,7 @@ function imprimirVenta(index) {
           </table>
           <div class="boleta-total">TOTAL: S/ ${venta.total.toFixed(2)}</div>
           <div class="boleta-footer">¡Gracias por su compra!</div>
+          <button class="btn-imprimir" onclick="window.print()">Imprimir</button>
         </div>
       </body>
     </html>
@@ -736,7 +751,11 @@ function imprimirVenta(index) {
   ventanaImpresion.document.write(contenido);
   ventanaImpresion.document.close();
   ventanaImpresion.focus();
-  ventanaImpresion.print();
+
+  // Si no es móvil, imprimir automáticamente
+  if (!esMovil) {
+    ventanaImpresion.print();
+  }
 }
 
 
