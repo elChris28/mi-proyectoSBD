@@ -394,6 +394,7 @@ button:hover {
 
 
 
+
 /* Media Queries */
 @media (max-width: 768px) {
   h1 {
@@ -534,9 +535,16 @@ button:hover {
     padding: 4px 8px;
 }
 
-.btn.eliminar {
-    width: 30px;
-    height: 25px;
+
+.botones-container {
+  display: flex;
+  flex-direction: column; /* Apilar botones */
+  align-items: flex-start; /* Alinear a la izquierda */
+  gap: 5px; /* Espaciado entre botones */
+}
+
+.botones-container .btn {
+  width: 100%; /* Que ocupen todo el ancho disponible */
 }
 
 .btn.ocupado {

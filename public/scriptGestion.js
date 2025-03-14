@@ -280,6 +280,9 @@ let totalVentas = 0; // Calculado dinámicamente
 
 let categoriaSeleccionada = null; // Para rastrear la categoría actual
 let subcategoriaSeleccionada = null; // Para rastrear la subcategoría actual
+let platosAcumuladosPorSubcategoria = {};
+
+let platosVendidos = {};
 
 // Escuchar el historial de ventas sincronizado
 socket.on("historialVentas", (data) => {
@@ -474,8 +477,11 @@ function actualizarHistorialVentas() {
           <em>${venta.fecha}</em><br>
           Platos: ${venta.platos.join(", ")}<br>
           Total: <strong>$${venta.total}</strong><br>
-          Método de Pago: <strong>${venta.metodoPago}</strong>
-          <button class="EliminarVenta" onclick="eliminarVenta(${index})">Eliminar</button>
+          Método de Pago: <strong>${venta.metodoPago}</strong><br>
+          <div class="botones-container">
+            <button class="btn eliminar" onclick="eliminarVenta(${index})">Eliminar</button>
+            <button class="btn imprimir" onclick="imprimirVenta(${index})">Imprimir</button>
+          </div>
         </li>
       `
     )
@@ -578,8 +584,9 @@ function enviarTodosLosPlatosACocina(mesaId) {
     return;
   }
 
+  let pedidosAgrupados = []; // 📌 Para almacenar todos los platos en un solo documento de impresión
+
   mesa.platos.forEach((plato) => {
-    // Obtener la categoría y subcategoría correctas
     const categoriaInfo = encontrarCategoriaYSubcategoria(plato.nombre);
 
     if (!categoriaInfo) {
@@ -587,15 +594,26 @@ function enviarTodosLosPlatosACocina(mesaId) {
       return;
     }
 
-    // Enviar cada plato con su cantidad
-    socket.emit("enviarPedido", {
-      mesaId: mesa.id,
-      categorias: [categoriaInfo.categoria, categoriaInfo.subcategoria],
-      platos: [{ nombre: plato.nombre, cantidad: plato.cantidad }],
+    const { categoria, subcategoria } = categoriaInfo;
+
+    // Guardar en un array todos los platos para imprimir juntos
+    pedidosAgrupados.push({
+      nombre: plato.nombre,
+      cantidad: plato.cantidad,
+      categoria,
+      subcategoria
     });
 
-    console.log(`Plato "${plato.nombre}" x${plato.cantidad} de la mesa ${mesa.id} enviado a cocina.`);
+    // Enviar cada pedido al servidor según su categoría/subcategoría
+    socket.emit("enviarPedido", {
+      mesaId: mesa.id,
+      categorias: [categoria, subcategoria],
+      platos: [{ nombre: plato.nombre, cantidad: plato.cantidad }],
+    });
   });
+
+  // 📌 Imprimir todos los platos en un solo documento después de enviarlos a cocina
+  imprimirPedidoCocinero(mesa.id, pedidosAgrupados);
 
   alert(`Todos los platos de la mesa ${mesa.id} han sido enviados a la cocina.`);
 }
@@ -619,11 +637,15 @@ function enviarPlatoACocina(mesaId, platoIndex) {
     return;
   }
 
+  // Enviar el plato al servidor para su preparación en cocina
   socket.emit("enviarPedido", {
     mesaId: mesa.id,
-    categorias: [categoriaInfo.categoria, categoriaInfo.subcategoria], // Ahora enviamos la categoría correcta
+    categorias: [categoriaInfo.categoria, categoriaInfo.subcategoria], 
     platos: [{ nombre: plato.nombre, cantidad: plato.cantidad }],
   });
+
+  // 📌 Llamar a la función para imprimir solo este plato
+  imprimirPedidoPlato(mesa.id, plato, categoriaInfo);
 
   alert(`El plato "${plato.nombre}" x${plato.cantidad} de la mesa ${mesa.id} ha sido enviado a cocina.`);
 }
@@ -639,6 +661,215 @@ function encontrarCategoriaYSubcategoria(platoNombre) {
   }
   return null;
 }
+
+
+
+function imprimirVenta(index) {
+  const venta = ventas[index];
+
+  // Formatear el contenido de la boleta con un estilo más moderno
+  const contenido = `
+    <html>
+      <head>
+        <title>Boleta de Venta - Mesa ${venta.mesaId}</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 20px; background: #f8f8f8; }
+          .boleta { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); }
+          .boleta-header { text-align: center; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+          .boleta-header h1 { margin: 0; font-size: 22px; color: #333; }
+          .boleta-header img { max-width: 100px; float: right; }
+          .boleta-info { margin-top: 15px; font-size: 14px; }
+          .boleta-info div { margin: 5px 0; }
+          .boleta-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
+          .boleta-table th, .boleta-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+          .boleta-table th { background: #4CAF50; color: white; }
+          .boleta-total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 10px; }
+          .boleta-footer { text-align: center; margin-top: 20px; font-size: 12px; color: #555; }
+        </style>
+      </head>
+      <body>
+        <div class="boleta">
+          <div class="boleta-header">
+            <img src="URL_DEL_LOGO" alt="Logo">
+            <h1>Anticucheria Mechita</h1>
+            <p>R.U.C. 10007456085</p>
+            <p>tef. 980XXXXXX</p>
+            <p>Dir. </p>
+            <p>BOLETA DE VENTA</p>
+          </div>
+          <div class="boleta-info">
+            <div><strong>Mesa:</strong> ${venta.mesaId}</div>
+            <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
+            <div><strong>Método de Pago:</strong> ${venta.metodoPago}</div>
+          </div>
+          <table class="boleta-table">
+            <thead>
+              <tr>
+                <th>Cantidad</th>
+                <th>Descripción</th>
+                <th>Importe (S/)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${venta.platos.map(plato => {
+                const detalles = plato.split(" x"); // Separar nombre y cantidad
+                const nombre = detalles[0];
+                const cantidad = detalles[1].split(" - ")[0]; 
+                const precio = detalles[1].split(" - $")[1];
+                return `<tr>
+                          <td>${cantidad}</td>
+                          <td>${nombre}</td>
+                          <td>S/ ${precio}</td>
+                        </tr>`;
+              }).join("")}
+            </tbody>
+          </table>
+          <div class="boleta-total">TOTAL: S/ ${venta.total.toFixed(2)}</div>
+          <div class="boleta-footer">¡Gracias por su compra!</div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  // Abrir una ventana nueva para imprimir
+  const ventanaImpresion = window.open("", "", "width=600,height=600");
+  ventanaImpresion.document.write(contenido);
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+}
+
+
+function imprimirPedidoCocinero(mesaId, pedidos) {
+  const contenido = `
+    <html>
+      <head>
+        <title>Pedido a Cocina - Mesa ${mesaId}</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 20px; }
+          h1, h2 { text-align: center; margin-bottom: 10px; }
+          .detalle { font-size: 16px; margin-bottom: 10px; }
+          .detalle span { font-weight: bold; }
+          ul { padding: 0; list-style: none; }
+          li { font-size: 14px; padding: 5px 0; }
+          hr { margin: 15px 0; }
+        </style>
+      </head>
+      <body>
+        <h1>Pedido a Cocina</h1>
+        <hr>
+        <div class="detalle"><span>Mesa:</span> ${mesaId}</div>
+        <div class="detalle"><span>Hora del Pedido:</span> ${new Date().toLocaleTimeString()}</div>
+        <hr>
+        <h2>Platos Solicitados</h2>
+        <ul>
+          ${pedidos.map(plato => `<li><strong>${plato.nombre}</strong> x${plato.cantidad} (${plato.categoria} - ${plato.subcategoria})</li>`).join("")}
+        </ul>
+        <hr>
+        <p style="text-align: center;">¡Preparar con rapidez!</p>
+      </body>
+    </html>
+  `;
+
+  // 📌 Abrir una ventana emergente con todos los pedidos de la mesa
+  const ventanaImpresion = window.open("", "", "width=600,height=600");
+  ventanaImpresion.document.write(contenido);
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+}
+
+
+function imprimirPedidoPlato(mesaId, plato, categoriaInfo) {
+  const logoURL = "URL_DEL_LOGO_AQUÍ"; // 🔹 Reemplaza con la URL de tu logo o una imagen local
+
+  const contenido = `
+    <html>
+      <head>
+        <title>Pedido a Cocina - Mesa ${mesaId}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+            border: 2px solid #333;
+            border-radius: 10px;
+          }
+          .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+          }
+          .logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+          }
+          .detalle {
+            font-size: 16px;
+            margin-bottom: 5px;
+          }
+          .detalle span {
+            font-weight: bold;
+            color: #333;
+          }
+          .platos-container {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+          }
+          .plato-item {
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+          }
+          .plato-item:last-child {
+            border-bottom: none;
+          }
+          .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+            color: #555;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Pedido a Cocina</h1>
+          <img src="${logoURL}" alt="Logo Restaurante" class="logo">
+        </div>
+
+        <div class="detalle"><span>Mesa:</span> ${mesaId}</div>
+        <div class="detalle"><span>Hora del Pedido:</span> ${new Date().toLocaleTimeString()}</div>
+
+        <div class="platos-container">
+          <h2>Plato Solicitado</h2>
+          <div class="plato-item">
+            <strong>${plato.nombre}</strong> x${plato.cantidad}  
+            <br><small>(${categoriaInfo.categoria} - ${categoriaInfo.subcategoria})</small>
+          </div>
+        </div>
+
+        <div class="footer">¡Preparar con rapidez!</div>
+      </body>
+    </html>
+  `;
+
+  // 📌 Abrir una ventana emergente con la información del plato para imprimir
+  const ventanaImpresion = window.open("", "", "width=400,height=600");
+  ventanaImpresion.document.write(contenido);
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+}
+
 
 
 // Limpiar historial de ventas
@@ -663,3 +894,4 @@ btnLogout.addEventListener("click", () => {
 // Inicializar
 renderizarMesas();
 actualizarHistorialVentas();
+inicializarPlatosVendidos();
