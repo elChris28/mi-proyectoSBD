@@ -26,6 +26,7 @@ const platosMenu = {
       { nombre: "Porción de rachi", precio: 15 },
       { nombre: "Porción de mollejita", precio: 13 },
       { nombre: "Porción de pancho", precio: 4 },
+      { nombre: "1P. Pancho", precio: 2 },
       { nombre: "1P. Anticucho", precio: 7 },
       { nombre: "Tajada de choclo", precio: 0.50 },
       { nombre: "Choclo entero", precio: 4 },
@@ -100,6 +101,7 @@ const platosMenu = {
       { nombre: "CHAUFA DE POLLO", precio: 10 },
       { nombre: "CHAUFA DE CARNE", precio: 11 },
       { nombre: "CHAUFA DE CARNE Y POLLO", precio: 13 },
+      { nombre: "PORCIÓN DE ARROZ", precio: 4 },
     ],
     Platos_SOPAS: [
       { nombre: "MINUTA DE CARNE C/ LECHE", precio: 10 },
@@ -162,6 +164,7 @@ const platosMenu = {
       { nombre: "LLEVAR - Porción de rachi", precio: 15 },
       { nombre: "LLEVAR - Porción de mollejita", precio: 13 },
       { nombre: "LLEVAR - Porción de pancho", precio: 4 },
+      { nombre: "LLEVAR - 1P. Pancho", precio: 2 },
       { nombre: "LLEVAR - 1P. Anticucho", precio: 7 },
       { nombre: "LLEVAR - Tajada de choclo", precio: 0.50 },
       { nombre: "LLEVAR - Choclo entero", precio: 4 },
@@ -769,8 +772,22 @@ function imprimirPedidoCocinero(mesaId, pedidos) {
           h1, h2 { text-align: center; margin-bottom: 10px; }
           .detalle { font-size: 16px; margin-bottom: 10px; }
           .detalle span { font-weight: bold; }
-          ul { padding: 0; list-style: none; }
-          li { font-size: 14px; padding: 5px 0; }
+          .pedido-container { 
+            padding: 15px; 
+            border: 2px solid #000; 
+            border-radius: 5px; 
+            background: #f9f9f9; 
+            margin-top: 10px;
+            text-align: center;
+          }
+          .pedido-item { 
+            font-size: 20px; 
+            font-weight: bold; 
+            padding: 10px 0; 
+            color: #d32f2f; 
+            text-transform: uppercase;
+          }
+          .categoria { font-size: 14px; color: #555; }
           hr { margin: 15px 0; }
         </style>
       </head>
@@ -781,16 +798,18 @@ function imprimirPedidoCocinero(mesaId, pedidos) {
         <div class="detalle"><span>Hora del Pedido:</span> ${new Date().toLocaleTimeString()}</div>
         <hr>
         <h2>Platos Solicitados</h2>
-        <ul>
-          ${pedidos.map(plato => `<li><strong>${plato.nombre}</strong> x${plato.cantidad} (${plato.categoria} - ${plato.subcategoria})</li>`).join("")}
-        </ul>
+        ${pedidos.map(plato => `
+          <div class="pedido-container">
+            <div class="pedido-item">${plato.nombre} x${plato.cantidad}</div>
+            <div class="categoria">(${plato.categoria} - ${plato.subcategoria})</div>
+          </div>
+        `).join("")}
         <hr>
-        <p style="text-align: center;">¡Preparar con rapidez!</p>
+        <p style="text-align: center; font-size: 14px;">¡Preparar con rapidez!</p>
       </body>
     </html>
   `;
 
-  // 📌 Abrir una ventana emergente con todos los pedidos de la mesa
   const ventanaImpresion = window.open("", "", "width=600,height=600");
   ventanaImpresion.document.write(contenido);
   ventanaImpresion.document.close();
@@ -800,88 +819,51 @@ function imprimirPedidoCocinero(mesaId, pedidos) {
 
 
 function imprimirPedidoPlato(mesaId, plato, categoriaInfo) {
-  const logoURL = "URL_DEL_LOGO_AQUÍ"; // 🔹 Reemplaza con la URL de tu logo o una imagen local
-
   const contenido = `
     <html>
       <head>
         <title>Pedido a Cocina - Mesa ${mesaId}</title>
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            max-width: 400px;
-            margin: auto;
-            border: 2px solid #333;
-            border-radius: 10px;
-          }
-          .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #333;
-          }
-          .logo {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-          }
-          .detalle {
-            font-size: 16px;
-            margin-bottom: 5px;
-          }
-          .detalle span {
-            font-weight: bold;
-            color: #333;
-          }
-          .platos-container {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background: #f9f9f9;
-            margin-bottom: 10px;
-          }
-          .plato-item {
-            font-size: 14px;
-            padding: 5px 0;
-            border-bottom: 1px solid #ddd;
-          }
-          .plato-item:last-child {
-            border-bottom: none;
-          }
-          .footer {
+          body { font-family: Arial, sans-serif; padding: 20px; }
+          h1, h2 { text-align: center; margin-bottom: 10px; }
+          .detalle { font-size: 16px; margin-bottom: 10px; }
+          .detalle span { font-weight: bold; }
+          .pedido-container { 
+            padding: 15px; 
+            border: 2px solid #000; 
+            border-radius: 5px; 
+            background: #f9f9f9; 
+            margin-top: 10px;
             text-align: center;
-            font-size: 14px;
-            margin-top: 15px;
-            color: #555;
           }
+          .pedido-item { 
+            font-size: 20px; 
+            font-weight: bold; 
+            padding: 10px 0; 
+            color: #d32f2f; 
+            text-transform: uppercase;
+          }
+          .categoria { font-size: 14px; color: #555; }
+          hr { margin: 15px 0; }
         </style>
       </head>
       <body>
-        <div class="header">
-          <h1>Pedido a Cocina</h1>
-          <img src="${logoURL}" alt="Logo Restaurante" class="logo">
-        </div>
-
+        <h1>Pedido a Cocina</h1>
+        <hr>
         <div class="detalle"><span>Mesa:</span> ${mesaId}</div>
         <div class="detalle"><span>Hora del Pedido:</span> ${new Date().toLocaleTimeString()}</div>
-
-        <div class="platos-container">
-          <h2>Plato Solicitado</h2>
-          <div class="plato-item">
-            <strong>${plato.nombre}</strong> x${plato.cantidad}  
-            <br><small>(${categoriaInfo.categoria} - ${categoriaInfo.subcategoria})</small>
-          </div>
+        <hr>
+        <h2>Plato Solicitado</h2>
+        <div class="pedido-container">
+          <div class="pedido-item">${plato.nombre} x${plato.cantidad}</div>
+          <div class="categoria">(${categoriaInfo.categoria} - ${categoriaInfo.subcategoria})</div>
         </div>
-
-        <div class="footer">¡Preparar con rapidez!</div>
+        <hr>
+        <p style="text-align: center; font-size: 14px;">¡Preparar con rapidez!</p>
       </body>
     </html>
   `;
 
-  // 📌 Abrir una ventana emergente con la información del plato para imprimir
   const ventanaImpresion = window.open("", "", "width=400,height=600");
   ventanaImpresion.document.write(contenido);
   ventanaImpresion.document.close();
