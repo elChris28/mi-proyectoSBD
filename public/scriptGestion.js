@@ -674,6 +674,7 @@ function imprimirVenta(index) {
   const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   // Contenido de la boleta con botón de impresión en móviles
+  // FECHA QUITE CORREGIR <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
   const contenido = `
     <html>
       <head>
@@ -717,8 +718,8 @@ function imprimirVenta(index) {
           </div>
           <div class="boleta-info">
             <div><strong>Mesa:</strong> ${venta.mesaId}</div>
-            <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
-            <div><strong>Método de Pago:</strong> ${venta.metodoPago}</div>
+            
+            <div><strong>Método de Pago:</strong> ${venta.metodoPago}</div> 
           </div>
           <table class="boleta-table">
             <thead>
