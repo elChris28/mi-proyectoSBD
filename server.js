@@ -54,7 +54,7 @@ const platosMenu = {
 const PORT = 3000;
 
 // Middleware para servir archivos estáticos
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Estado inicial de las mesas

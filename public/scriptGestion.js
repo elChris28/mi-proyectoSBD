@@ -587,7 +587,7 @@ function enviarTodosLosPlatosACocina(mesaId) {
     return;
   }
 
-  let pedidosAgrupados = []; // 📌 Para almacenar todos los platos en un solo documento de impresión
+  let pedidosAgrupados = []; // Para almacenar todos los platos en un solo documento de impresión
 
   mesa.platos.forEach((plato) => {
     const categoriaInfo = encontrarCategoriaYSubcategoria(plato.nombre);
@@ -615,7 +615,7 @@ function enviarTodosLosPlatosACocina(mesaId) {
     });
   });
 
-  // 📌 Imprimir todos los platos en un solo documento después de enviarlos a cocina
+  // Imprimir todos los platos en un solo documento después de enviarlos a cocina
   imprimirPedidoCocinero(mesa.id, pedidosAgrupados);
 
   alert(`Todos los platos de la mesa ${mesa.id} han sido enviados a la cocina.`);
@@ -647,7 +647,7 @@ function enviarPlatoACocina(mesaId, platoIndex) {
     platos: [{ nombre: plato.nombre, cantidad: plato.cantidad }],
   });
 
-  // 📌 Llamar a la función para imprimir solo este plato
+  // Llamar a la función para imprimir solo este plato
   imprimirPedidoPlato(mesa.id, plato, categoriaInfo);
 
   alert(`El plato "${plato.nombre}" x${plato.cantidad} de la mesa ${mesa.id} ha sido enviado a cocina.`);
@@ -679,40 +679,41 @@ function imprimirVenta(index) {
       <head>
         <title>Boleta de Venta - Mesa ${venta.mesaId}</title>
         <style>
-          body { font-family: Arial, sans-serif; padding: 20px; background: #f8f8f8; }
-          .boleta { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); }
-          .boleta-header { text-align: center; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
-          .boleta-header h1 { margin: 0; font-size: 22px; color: #333; }
-          .boleta-header img { max-width: 100px; float: right; }
-          .boleta-info { margin-top: 15px; font-size: 14px; }
-          .boleta-info div { margin: 5px 0; }
-          .boleta-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
-          .boleta-table th, .boleta-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-          .boleta-table th { background: #4CAF50; color: white; }
-          .boleta-total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 10px; }
-          .boleta-footer { text-align: center; margin-top: 20px; font-size: 12px; color: #555; }
+          body { font-family: Arial, sans-serif; padding: 10px; background: #fff; }
+          .boleta { max-width: 320px; margin: auto; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+          .boleta-header { text-align: center; border-bottom: 1px dashed #000; padding-bottom: 5px; margin-bottom: 10px; }
+          .boleta-header h1 { font-size: 16px; margin: 0; }
+          .boleta-header img { max-width: 80px; }
+          .boleta-info { font-size: 12px; }
+          .boleta-info div { margin: 2px 0; }
+          .boleta-table { width: 100%; margin-top: 5px; border-collapse: collapse; font-size: 12px; }
+          .boleta-table th, .boleta-table td { border-bottom: 1px dashed #ccc; padding: 4px; text-align: center; }
+          .boleta-table th { background: #eee; font-size: 12px; }
+          .boleta-total { text-align: right; font-size: 14px; font-weight: bold; margin-top: 5px; }
+          .boleta-footer { text-align: center; margin-top: 5px; font-size: 10px; color: #555; }
           .btn-imprimir { 
             display: ${esMovil ? "block" : "none"}; 
-            margin: 20px auto; 
-            padding: 10px 20px; 
+            width: 100%; 
+            margin: 10px 0; 
+            padding: 8px; 
             background: #4CAF50; 
             color: white; 
             border: none; 
             border-radius: 5px; 
             cursor: pointer; 
-            font-size: 16px; 
+            font-size: 14px; 
           }
         </style>
       </head>
       <body>
         <div class="boleta">
           <div class="boleta-header">
-            <img src="URL_DEL_LOGO" alt="Logo">
+            <img src="/img/LogoAnticucheria.png" alt="Logo">
             <h1>Anticucheria Mechita</h1>
             <p>R.U.C. 10426045881</p>
             <p>Tel: 980824104</p>
             <p>Dir. Pdro. 6 Huascar-SJL</p>
-            <p><strong>BOLETA DE VENTA</strong></p>
+            <p><strong>NOTA DE VENTA</strong></p>
           </div>
           <div class="boleta-info">
             <div><strong>Mesa:</strong> ${venta.mesaId}</div>
@@ -722,9 +723,10 @@ function imprimirVenta(index) {
           <table class="boleta-table">
             <thead>
               <tr>
-                <th>Cantidad</th>
+                <th>Cant.</th>
                 <th>Descripción</th>
-                <th>Importe (S/)</th>
+                <th>Precio Unit.</th>
+                <th>Importe</th>
               </tr>
             </thead>
             <tbody>
@@ -732,17 +734,20 @@ function imprimirVenta(index) {
                 const detalles = plato.split(" x"); // Separar nombre y cantidad
                 const nombre = detalles[0];
                 const cantidad = detalles[1].split(" - ")[0]; 
-                const precio = detalles[1].split(" - $")[1];
+                const precioUnitario = parseFloat(detalles[1].split(" - $")[1]); 
+                const importeTotal = (precioUnitario * parseInt(cantidad)).toFixed(2);
                 return `<tr>
                           <td>${cantidad}</td>
-                          <td>${nombre}</td>
-                          <td>S/ ${precio}</td>
+                          <td style="text-align: left;">${nombre}</td>
+                          <td>S/ ${precioUnitario.toFixed(2)}</td>
+                          <td><strong>S/ ${importeTotal}</strong></td>
                         </tr>`;
               }).join("")}
             </tbody>
           </table>
           <div class="boleta-total">TOTAL: S/ ${venta.total.toFixed(2)}</div>
           <div class="boleta-footer">¡Gracias por su compra!</div>
+          <div class="boleta-footer">Ticket de uso interno de caja</div>
           <button class="btn-imprimir" onclick="window.print()">Imprimir</button>
         </div>
       </body>
@@ -750,7 +755,7 @@ function imprimirVenta(index) {
   `;
 
   // Abrir una ventana nueva para imprimir
-  const ventanaImpresion = window.open("", "", "width=600,height=600");
+  const ventanaImpresion = window.open("", "", "width=400,height=600");
   ventanaImpresion.document.write(contenido);
   ventanaImpresion.document.close();
   ventanaImpresion.focus();
