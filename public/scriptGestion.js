@@ -718,7 +718,7 @@ function imprimirVenta(index) {
           </div>
           <div class="boleta-info">
             <div><strong>Mesa:</strong> ${venta.mesaId}</div>
-            
+            <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
             <div><strong>Método de Pago:</strong> ${venta.metodoPago}</div> 
           </div>
           <table class="boleta-table">

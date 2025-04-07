@@ -6,6 +6,8 @@ const { Server } = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const moment = require("moment-timezone");
+
 
 
 const platosMenu = {
@@ -122,7 +124,7 @@ io.on("connection", (socket) => {
         mesaId,
         total,
         metodoPago,  // Guardar el método de pago
-        fecha: new Date().toLocaleString(), // Fecha y hora en formato legible
+        fecha: moment().tz("America/Lima").format("YYYY-MM-DD HH:mm:ss"), // Fecha y hora PERU
         platos,
       };
     
