@@ -669,99 +669,143 @@ function encontrarCategoriaYSubcategoria(platoNombre) {
 
 function imprimirVenta(index) {
   const venta = ventas[index];
-
-  // Detectar si el usuario está en un móvil
   const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  // Contenido de la boleta con botón de impresión en móviles
-  // FECHA QUITE CORREGIR <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
   const contenido = `
     <html>
       <head>
         <title>Boleta de Venta - Mesa ${venta.mesaId}</title>
         <style>
-          body { font-family: Arial, sans-serif; padding: 10px; background: #fff; }
-          .boleta { max-width: 320px; margin: auto; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-          .boleta-header { text-align: center; border-bottom: 1px dashed #000; padding-bottom: 5px; margin-bottom: 10px; }
-          .boleta-header h1 { font-size: 16px; margin: 0; }
-          .boleta-header img { max-width: 80px; }
-          .boleta-info { font-size: 12px; }
-          .boleta-info div { margin: 2px 0; }
-          .boleta-table { width: 100%; margin-top: 5px; border-collapse: collapse; font-size: 12px; }
-          .boleta-table th, .boleta-table td { border-bottom: 1px dashed #ccc; padding: 4px; text-align: center; }
-          .boleta-table th { background: #eee; font-size: 12px; }
-          .boleta-total { text-align: right; font-size: 14px; font-weight: bold; margin-top: 5px; }
-          .boleta-footer { text-align: center; margin-top: 5px; font-size: 10px; color: #555; }
-          .btn-imprimir { 
-            display: ${esMovil ? "block" : "none"}; 
-            width: 100%; 
-            margin: 10px 0; 
-            padding: 8px; 
-            background: #4CAF50; 
-            color: white; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            font-size: 14px; 
+          body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            background: #fff;
+            font-size: 12px;
+          }
+
+          .boleta-header {
+            text-align: center;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+          }
+
+          .boleta-header h1 {
+            font-size: 18px;
+            margin: 0;
+          }
+
+          .boleta-header img {
+            max-width: 100px;
+            margin-bottom: 5px;
+          }
+
+          .boleta-info div {
+            margin: 2px 0;
+          }
+
+          .boleta-table {
+            width: 100%;
+            margin-top: 5px;
+            border-collapse: collapse;
+            font-size: 12px;
+          }
+
+          .boleta-table th,
+          .boleta-table td {
+            border-bottom: 1px dashed #ccc;
+            padding: 4px;
+            text-align: center;
+          }
+
+          .boleta-table th {
+            background: #eee;
+          }
+
+          .boleta-total {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+          }
+
+          .boleta-footer {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 10px;
+            color: #555;
+          }
+
+          .btn-imprimir {
+            display: ${esMovil ? "block" : "none"};
+            width: 100%;
+            margin: 10px 0;
+            padding: 8px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
           }
         </style>
       </head>
       <body>
-        <div class="boleta">
-          <div class="boleta-header">
-            <img src="/img/LogoAnticucheria.png" alt="Logo">
-            <h1>Anticucheria Mechita</h1>
-            <p>R.U.C. 10426045881</p>
-            <p>Tel: 980824104</p>
-            <p>Dir. Pdro. 6 Huascar-SJL</p>
-            <p><strong>NOTA DE VENTA</strong></p>
-          </div>
-          <div class="boleta-info">
-            <div><strong>Mesa:</strong> ${venta.mesaId}</div>
-            <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
-            <div><strong>Método de Pago:</strong> ${venta.metodoPago}</div> 
-          </div>
-          <table class="boleta-table">
-            <thead>
-              <tr>
-                <th>Cant.</th>
-                <th>Descripción</th>
-                <th>Precio Unit.</th>
-                <th>Importe</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${venta.platos.map(plato => {
-                const detalles = plato.split(" x"); // Separar nombre y cantidad
-                const nombre = detalles[0];
-                const cantidad = detalles[1].split(" - ")[0]; 
-                const precioUnitario = parseFloat(detalles[1].split(" - $")[1]); 
-                const importeTotal = (precioUnitario * parseInt(cantidad)).toFixed(2);
-                return `<tr>
-                          <td>${cantidad}</td>
-                          <td style="text-align: left;">${nombre}</td>
-                          <td>S/ ${precioUnitario.toFixed(2)}</td>
-                          <td><strong>S/ ${importeTotal}</strong></td>
-                        </tr>`;
-              }).join("")}
-            </tbody>
-          </table>
-          <div class="boleta-total">TOTAL: S/ ${venta.total.toFixed(2)}</div>
-          <div class="boleta-footer">¡Gracias por su compra!</div>
-          <div class="boleta-footer">Ticket de uso interno de caja</div>
-          <button class="btn-imprimir" onclick="window.print()">Imprimir</button>
+        <div class="boleta-header">
+          <img src="/img/LogoAnticucheria.png" alt="Logo">
+          <h1>Anticucheria Mechita</h1>
+          <p>R.U.C. 10426045881</p>
+          <p>Tel: 980824104</p>
+          <p>Dir. Pdro. 6 Huascar-SJL</p>
+          <p><strong>NOTA DE VENTA</strong></p>
         </div>
+
+        <div class="boleta-info">
+          <div><strong>Mesa:</strong> ${venta.mesaId}</div>
+          <div><strong>Fecha y Hora:</strong> ${venta.fecha}</div>
+          <div><strong>Método de Pago:</strong> ${venta.metodoPago}</div>
+        </div>
+
+        <table class="boleta-table">
+          <thead>
+            <tr>
+              <th>Cant.</th>
+              <th>Descripción</th>
+              <th>Precio Unit.</th>
+              <th>Importe</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${venta.platos.map(plato => {
+              const detalles = plato.split(" x");
+              const nombre = detalles[0];
+              const cantidad = detalles[1].split(" - ")[0];
+              const precioUnitario = parseFloat(detalles[1].split(" - $")[1]);
+              const importeTotal = (precioUnitario * parseInt(cantidad)).toFixed(2);
+              return `
+                <tr>
+                  <td>${cantidad}</td>
+                  <td style="text-align: left;">${nombre}</td>
+                  <td>S/ ${precioUnitario.toFixed(2)}</td>
+                  <td><strong>S/ ${importeTotal}</strong></td>
+                </tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+
+        <div class="boleta-total">TOTAL: S/ ${venta.total.toFixed(2)}</div>
+        <div class="boleta-footer">¡Gracias por su compra!</div>
+        <div class="boleta-footer">Ticket de uso interno de caja</div>
+        <button class="btn-imprimir" onclick="window.print()">Imprimir</button>
       </body>
     </html>
   `;
 
-  // Abrir una ventana nueva para imprimir
-  const ventanaImpresion = window.open("", "", "width=400,height=600");
+  const ventanaImpresion = window.open("", "", "width=600,height=800");
   ventanaImpresion.document.write(contenido);
   ventanaImpresion.document.close();
   ventanaImpresion.focus();
 
-  // Si no es móvil, imprimir automáticamente
   if (!esMovil) {
     ventanaImpresion.print();
   }
