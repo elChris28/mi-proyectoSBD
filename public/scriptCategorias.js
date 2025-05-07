@@ -1,5 +1,8 @@
 const socket = io();
 const categoriasContainer = document.getElementById("categorias-container");
+const filtroSelect = document.getElementById("categoria-select");
+const btnExportarPDF = document.getElementById("btn-exportar-pdf");
+const btnExportarExcel = document.getElementById("btn-exportar-excel");
 
 // Platos organizados por Categoría y Subcategoría
 const platosMenu = {
@@ -262,24 +265,32 @@ const platosMenu = {
 
 // Estado para contar los platos vendidos
 let platosVendidos = {};
+let ventasHistorial = [];
+let categoriaFiltrada = "todas";
 
 // Inicializar la estructura de conteo
 function inicializarPlatosVendidos() {
-  platosVendidos = {}; // Reiniciar estructura
-
+  platosVendidos = {};
   Object.keys(platosMenu).forEach((categoria) => {
     platosVendidos[categoria] = {};
-
     Object.keys(platosMenu[categoria]).forEach((subcategoria) => {
       platosVendidos[categoria][subcategoria] = {
         totalPrecio: 0,
         items: {}
       };
-
       platosMenu[categoria][subcategoria].forEach((plato) => {
-        platosVendidos[categoria][subcategoria].items[plato.nombre] = { cantidad: 0, precio: plato.precio };
+        platosVendidos[categoria][subcategoria].items[plato.nombre] = {
+          cantidad: 0,
+          precio: plato.precio
+        };
       });
     });
+  });
+
+  // Llenar el filtro select
+  filtroSelect.innerHTML = `<option value="todas">Todas</option>`;
+  Object.keys(platosMenu).forEach((categoria) => {
+    filtroSelect.innerHTML += `<option value="${categoria}">${categoria}</option>`;
   });
 }
 
@@ -315,42 +326,121 @@ socket.on("historialVentas", (ventas) => {
 
 // Función para renderizar la interfaz con los platos vendidos
 function renderizarPlatosVendidos() {
-  categoriasContainer.innerHTML = Object.keys(platosVendidos)
-    .map(
-      (categoria) => `
-        <div class="categoria">
-          <h2>${categoria}</h2>
-          ${Object.keys(platosVendidos[categoria])
-            .map(
-              (subcategoria) => `
-                <div class="subcategoria">
-                  <h3>${subcategoria}</h3>
-                  <ul>
-                    ${Object.keys(platosVendidos[categoria][subcategoria].items)
-                      .map(
-                        (plato) => {
-                          const cantidad = platosVendidos[categoria][subcategoria].items[plato].cantidad;
-                          if (cantidad === 0) return ""; // No mostrar platos con 0 ventas
+  categoriasContainer.innerHTML = "";
 
-                          return `
-                            <li>${plato}: 
-                              <strong>${cantidad}</strong> vendidos 
-                              (Total: $${platosVendidos[categoria][subcategoria].items[plato].cantidad * platosVendidos[categoria][subcategoria].items[plato].precio})
-                            </li>`;
-                        }
-                      )
-                      .join("")}
-                  </ul>
-                  <h3>Total en ${subcategoria}: $${platosVendidos[categoria][subcategoria].totalPrecio.toFixed(2)}</h3>
-                </div>
-              `
-            )
-            .join("")}
-        </div>
-      `
-    )
-    .join("");
+  Object.keys(platosVendidos).forEach((categoria) => {
+    if (categoriaFiltrada !== "todas" && categoria !== categoriaFiltrada) return;
+
+    let categoriaHTML = `
+      <div class="categoria">
+        <h2>${categoria}</h2>
+    `;
+
+    Object.keys(platosVendidos[categoria]).forEach((subcategoria) => {
+      let listaPlatos = Object.entries(platosVendidos[categoria][subcategoria].items)
+        .filter(([_, data]) => data.cantidad > 0)
+        .map(([nombre, data]) =>
+          `<li><strong>${nombre}</strong> — ${data.cantidad} vendidos <span class="importe">(S/ ${(
+            data.precio * data.cantidad
+          ).toFixed(2)})</span></li>`
+        )
+        .join("");
+
+      if (listaPlatos) {
+        categoriaHTML += `
+          <div class="subcategoria">
+            <h3>${subcategoria}</h3>
+            <ul>${listaPlatos}</ul>
+            <div class="subtotal">Total: <strong>S/ ${platosVendidos[categoria][subcategoria].totalPrecio.toFixed(
+              2
+            )}</strong></div>
+          </div>
+        `;
+      }
+    });
+
+    categoriaHTML += "</div>";
+    categoriasContainer.innerHTML += categoriaHTML;
+  });
 }
+
+filtroSelect.addEventListener("change", () => {
+  categoriaFiltrada = filtroSelect.value;
+  renderizarPlatosVendidos();
+});
+
+// Exportar a Excel
+btnExportarExcel.addEventListener("click", () => {
+  const wb = XLSX.utils.book_new();
+  const ws_data = [["Categoría", "Subcategoría", "Plato", "Cantidad", "Total S/"]];
+
+  Object.entries(platosVendidos).forEach(([categoria, subcategorias]) => {
+    if (categoriaFiltrada !== "todas" && categoria !== categoriaFiltrada) return;
+
+    Object.entries(subcategorias).forEach(([subcategoria, datos]) => {
+      Object.entries(datos.items).forEach(([nombre, data]) => {
+        if (data.cantidad > 0) {
+          ws_data.push([
+            categoria,
+            subcategoria,
+            nombre,
+            data.cantidad,
+            (data.precio * data.cantidad).toFixed(2),
+          ]);
+        }
+      });
+    });
+  });
+
+  const ws = XLSX.utils.aoa_to_sheet(ws_data);
+  XLSX.utils.book_append_sheet(wb, ws, "Platos Vendidos");
+  XLSX.writeFile(wb, "PlatosVendidos.xlsx");
+});
+
+// Exportar a PDF
+btnExportarPDF.addEventListener("click", async () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  let y = 10;
+
+  doc.setFontSize(16);
+  doc.text("Resumen de Platos Vendidos", 10, y);
+  y += 10;
+
+  Object.entries(platosVendidos).forEach(([categoria, subcategorias]) => {
+    if (categoriaFiltrada !== "todas" && categoria !== categoriaFiltrada) return;
+
+    doc.setFontSize(14);
+    doc.text(`Categoría: ${categoria}`, 10, y);
+    y += 8;
+
+    Object.entries(subcategorias).forEach(([subcategoria, datos]) => {
+      const items = Object.entries(datos.items).filter(([_, data]) => data.cantidad > 0);
+      if (items.length === 0) return;
+
+      doc.setFontSize(12);
+      doc.text(`Subcategoría: ${subcategoria}`, 12, y);
+      y += 6;
+
+      items.forEach(([nombre, data]) => {
+        const texto = `- ${nombre}: ${data.cantidad} vendidos (S/ ${(data.precio * data.cantidad).toFixed(2)})`;
+        if (y > 270) {
+          doc.addPage();
+          y = 10;
+        }
+        doc.setFontSize(10);
+        doc.text(texto, 14, y);
+        y += 5;
+      });
+
+      y += 4;
+    });
+
+    y += 6;
+  });
+
+  doc.save("PlatosVendidos.pdf");
+});
 
 // Cerrar sesión
 document.getElementById("logout-button").addEventListener("click", () => {

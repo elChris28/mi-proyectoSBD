@@ -1,91 +1,157 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
   margin: 0;
-  padding: 0;
-}
-
-.header {
-  background-color: #343a40;
-  color: white;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.cerrar-sesion {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-h1 {
-  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6fa;
   color: #333;
 }
 
-.categoria {
-  margin-bottom: 40px;
+/* Header */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #3db46e91;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.categoria h2 {
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 5px;
+.header .btn {
+  background-color: #e74c3c;
 }
 
-.platos {
+/* Botones generales */
+.btn {
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+/* Filtro de categorías */
+.filtro-categorias {
+  margin-bottom: 20px;
+}
+
+.filtro-categorias select {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Exportar */
+.exportar-container {
+  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Categorías */
+#categorias-container .categoria {
+  margin-bottom: 30px;
+  border: 1px solid #e1e1e1;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+  background-color: #fafafa;
+}
+
+#categorias-container .categoria h2 {
+  color: #27ae60;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+/* Subcategorías */
+.subcategoria {
+  background-color: #f0f0f5;
+  border-radius: 8px;
+  padding: 15px;
   margin-top: 20px;
 }
 
-.plato-card {
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  width: calc(33.33% - 20px);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+.subcategoria h3 {
+  margin: 0 0 10px;
+  color: #2c3e50;
+  font-size: 18px;
 }
 
-.plato-card h3 {
-  margin-top: 0;
-  color: #333;
+/* Lista de platos */
+ul {
+  padding-left: 20px;
+  margin: 0;
 }
 
-.plato-card p {
-  margin: 5px 0;
-}
-
-.filtro-categorias {
-  margin-bottom: 20px;
+li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  border-bottom: 1px dashed #ccc;
+  padding: 4px 0;
   display: flex;
-  align-items: center;
-  gap: 10px;
-}
-#categoria-select {
-  padding: 5px 10px;
-  font-size: 16px;
+  justify-content: space-between;
 }
 
-@media (max-width: 768px) 
-{
-  .plato-card
-  {
+.subtotal {
+  font-weight: bold;
+  margin-top: 8px;
+  text-align: right;
+  color: #2c3e50;
+}
+
+/* Estilo del importe */
+.importe {
+  color: #444;
+  font-weight: bold;
+}
+
+.resumen-general {
+  background-color: #e8f5e9;
+  border-left: 5px solid #4caf50;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: left;
+}
+.resumen-general ul {
+  padding-left: 20px;
+  margin: 5px 0 0;
+}
+.resumen-general li {
+  margin-bottom: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .btn {
     width: 100%;
+  }
+
+  .exportar-container {
+    flex-direction: column;
   }
 }

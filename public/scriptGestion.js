@@ -671,6 +671,7 @@ function imprimirVenta(index) {
   const venta = ventas[index];
   const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+  //.boleta-header img ver la imagen
   const contenido = `
     <html>
       <head>
@@ -694,12 +695,12 @@ function imprimirVenta(index) {
             font-size: 18px;
             margin: 0;
           }
-
+          
           .boleta-header img {
             max-width: 100px;
             margin-bottom: 5px;
           }
-
+            
           .boleta-info div {
             margin: 2px 0;
           }
