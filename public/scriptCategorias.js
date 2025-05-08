@@ -327,6 +327,10 @@ socket.on("historialVentas", (ventas) => {
 // Función para renderizar la interfaz con los platos vendidos
 function renderizarPlatosVendidos() {
   categoriasContainer.innerHTML = "";
+  const resumenElement = document.getElementById("resumen-general");
+
+  let totalPlatosVendidos = 0;
+  const platosContador = {};
 
   Object.keys(platosVendidos).forEach((categoria) => {
     if (categoriaFiltrada !== "todas" && categoria !== categoriaFiltrada) return;
@@ -339,11 +343,14 @@ function renderizarPlatosVendidos() {
     Object.keys(platosVendidos[categoria]).forEach((subcategoria) => {
       let listaPlatos = Object.entries(platosVendidos[categoria][subcategoria].items)
         .filter(([_, data]) => data.cantidad > 0)
-        .map(([nombre, data]) =>
-          `<li><strong>${nombre}</strong> — ${data.cantidad} vendidos <span class="importe">(S/ ${(
-            data.precio * data.cantidad
-          ).toFixed(2)})</span></li>`
-        )
+        .map(([nombre, data]) => {
+          totalPlatosVendidos += data.cantidad;
+          if (!platosContador[nombre]) platosContador[nombre] = 0;
+          platosContador[nombre] += data.cantidad;
+
+          return `<li><strong>${nombre}</strong> — ${data.cantidad} vendidos 
+                  <span class="importe">(S/ ${(data.precio * data.cantidad).toFixed(2)})</span></li>`;
+        })
         .join("");
 
       if (listaPlatos) {
@@ -351,9 +358,7 @@ function renderizarPlatosVendidos() {
           <div class="subcategoria">
             <h3>${subcategoria}</h3>
             <ul>${listaPlatos}</ul>
-            <div class="subtotal">Total: <strong>S/ ${platosVendidos[categoria][subcategoria].totalPrecio.toFixed(
-              2
-            )}</strong></div>
+            <div class="subtotal">Total: <strong>S/ ${platosVendidos[categoria][subcategoria].totalPrecio.toFixed(2)}</strong></div>
           </div>
         `;
       }
@@ -362,6 +367,35 @@ function renderizarPlatosVendidos() {
     categoriaHTML += "</div>";
     categoriasContainer.innerHTML += categoriaHTML;
   });
+
+  // Obtener top 3 platos más vendidos
+  const topPlatos = Object.entries(platosContador)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 5)
+  .map(([nombre, cantidad]) => {
+    // Buscar el precio desde platosMenu
+    let precioUnitario = 0;
+    for (const cat in platosMenu) {
+      for (const sub in platosMenu[cat]) {
+        const plato = platosMenu[cat][sub].find(p => p.nombre === nombre);
+        if (plato) {
+          precioUnitario = plato.precio;
+          break;
+        }
+      }
+    }
+
+    const totalPlato = (cantidad * precioUnitario).toFixed(2);
+    return `<li>${nombre} — ${cantidad} vendidos <span class="importe"> (S/ ${totalPlato})</span></li>`;
+  })
+  .join("");
+
+  resumenElement.innerHTML = `
+    <h2>Resumen General</h2>
+    <p><strong>Total Platos Vendidos:</strong> ${totalPlatosVendidos}</p>
+    <p><strong>Platos Más Vendidos:</strong></p>
+    <ul>${topPlatos}</ul>
+  `;
 }
 
 filtroSelect.addEventListener("change", () => {
