@@ -752,7 +752,7 @@ function imprimirVenta(index) {
         <div class="boleta-total">TOTAL: S/ ${venta.total.toFixed(2)}</div>
         <div class="boleta-footer">¡Gracias por su compra!</div>
         <div class="boleta-footer">Ticket de uso interno de caja</div>
-        <button class="btn-imprimir" onclick="window.print()">Imprimir</button>
+        
       </body>
     </html>
   `;
