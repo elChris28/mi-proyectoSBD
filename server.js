@@ -9,48 +9,7 @@ const io = new Server(server);
 const moment = require("moment-timezone");
 
 
-
-const platosMenu = {
-  Platos_Anticucheria: {
-    Platos_CHICOS: [
-      { nombre: "Porción de pancita", precio: 13 },
-      { nombre: "Porción de anticucho", precio: 13 },
-      { nombre: "Porción de rachi", precio: 15 },
-    ],
-    Platos_CHICOS_CHOCLO: [
-      { nombre: "Porción de pancita + choclo", precio: 13.5 },
-      { nombre: "Porción de anticucho + choclo", precio: 13.5 },
-    ],
-    Platos_MIXTOS: [
-      { nombre: "Pollo a la parrilla", precio: 15 },
-      { nombre: "rachi + Mollejita + choclo", precio: 20 },
-    ],
-  },
-  Platos_Comidas: {
-    Platos_CARTA: [
-      { nombre: "LOMO DE CARNE", precio: 13 },
-      { nombre: "SALTADO DE POLLO", precio: 12 },
-    ],
-    Platos_CHAUFA: [
-      { nombre: "CHAUFA DE POLLO", precio: 10 },
-      { nombre: "CHAUFA DE CARNE", precio: 11 },
-    ],
-    Platos_BROASTER: [
-      { nombre: "ALITA + ARROZ + PAPA", precio: 9 },
-      { nombre: "ALITA + PAPA", precio: 9 },
-    ],
-  },
-  Bebidas: {
-    BEBIDAS_M: [
-      { nombre: "personal Inka", precio: 2.5 },
-      { nombre: "Personal coka kola", precio: 2.5 },
-    ],
-    BEBIDAS_TIO: [
-      { nombre: "1 Lt Chicha", precio: 7 },
-      { nombre: "1/2 Lt Chicha", precio: 3.5 },
-    ],
-  }
-};
+app.use(express.json()); // Asegúrate de poder leer JSON en el body
 
 // Puerto en el que correrá el servidor
 const PORT = 3000;
@@ -197,7 +156,8 @@ const categoriasCocinero2 = [
   "Platos_SOPAS", 
   "Platos_BROASTER",
   "Platos_SALCHIPAPAS",
-  "BEBIDAS_TIO"
+  "BEBIDAS_TIO",
+  "ALITAS"
 ];
 
 // Almacenar qué cliente pertenece a qué rol

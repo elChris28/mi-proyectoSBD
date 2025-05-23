@@ -13,7 +13,13 @@ const platosMenu = {
       { nombre: "Porción de rachi", precio: 15 },
       { nombre: "Porción de mollejita", precio: 13 },
       { nombre: "Porción de pancho", precio: 4 },
+      { nombre: "1P. Pancho", precio: 2 },
       { nombre: "1P. Anticucho", precio: 7 },
+
+      { nombre: "Parrillada", precio: 18 },
+      { nombre: "Pollo a la parrilla", precio: 16 },
+      { nombre: "Anticucho de pollo", precio: 13 },
+
       { nombre: "Tajada de choclo", precio: 0.50 },
       { nombre: "Choclo entero", precio: 4 },
     ],
@@ -26,7 +32,6 @@ const platosMenu = {
       { nombre: "1P.Anti + choclo", precio: 7.5 },
     ],
     Platos_MIXTOS: [
-      { nombre: "Pollo a la parrilla", precio: 15 },
       { nombre: "rachi + Mollejita + choclo", precio: 20 },
       { nombre: "pancita + Mollejita + choclo", precio: 17 },
       { nombre: "pancita + rachi + choclo", precio: 17 },
@@ -61,7 +66,7 @@ const platosMenu = {
       { nombre: "LOMO DE CARNE", precio: 13 },
       { nombre: "SALTADO DE POLLO", precio: 12 },
       { nombre: "LOMO DE CARNE A LO POBRE", precio: 16 },
-      { nombre: "SALTADO DE POLLO A LO POBRE", precio: 16 },
+      { nombre: "SALTADO DE POLLO A LO POBRE", precio: 15 },
       { nombre: "BISTECK A LO POBRE", precio: 16 },
       { nombre: "POLLO A LA PLANCHA A LO POBRE", precio: 16 },
       { nombre: "POLLO A LA PLANCHA ", precio: 12 },
@@ -70,7 +75,7 @@ const platosMenu = {
     ],
     Platos_POBRE: [
       { nombre: "LOMO DE CARNE A LO POBRE (FRITO)", precio: 16 },
-      { nombre: "SALTADO DE POLLO A LO POBRE (INGLESA)", precio: 16 },
+      { nombre: "SALTADO DE POLLO A LO POBRE (INGLESA)", precio: 15 },
       { nombre: "BISTECK A LO POBRE (FRITO)", precio: 16 },
       { nombre: "BISTECK A LO POBRE (INGLESA)", precio: 16 },
       { nombre: "POLLO A LA PLANCHA A LO POBRE (FRITO)", precio: 16 },
@@ -79,13 +84,14 @@ const platosMenu = {
       { nombre: "BROASTER POBRE (CON ARROZ) (FRITO) ", precio: 14 },
       { nombre: "BROASTER POBRE (PURA PAPA) (INGLESA)", precio: 14 },
       { nombre: "BROASTER POBRE (PURA PAPA) (FRITO)", precio: 14 },
-      { nombre: "SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 11 },
-      { nombre: "SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 11 },
+  
     ],
     Platos_CHAUFA: [
       { nombre: "CHAUFA DE POLLO", precio: 10 },
       { nombre: "CHAUFA DE CARNE", precio: 11 },
       { nombre: "CHAUFA DE CARNE Y POLLO", precio: 13 },
+      { nombre: "AEROPUERTO", precio: 11 },
+      { nombre: "PORCIÓN DE ARROZ", precio: 4 },
     ],
     Platos_SOPAS: [
       { nombre: "MINUTA DE CARNE C/ LECHE", precio: 10 },
@@ -105,16 +111,45 @@ const platosMenu = {
       { nombre: "ENTREPIERNA + PAPA", precio: 10 },
       { nombre: "PECHO + ARROZ + PAPA", precio: 10 },
       { nombre: "PECHO + PAPA", precio: 10 },
-      { nombre: "ALITA + ARROZ + PAPA", precio: 10 },
       { nombre: "CHICHARRON DE POLLO (PURA PAPA)", precio: 13 },
       { nombre: "CHICHARRON DE POLLO (CON ARROZ)", precio: 13 },
       { nombre: "MOSTRITO BROASTER", precio: 11 },
     ],
+    ALITAS: [
+      { nombre: "6 ALITAS ACEVICHADAS", precio: 18 },
+      { nombre: "6 ALITAS BBQ", precio: 18 },
+      { nombre: "6 ALITAS CRISPY", precio: 18 },
+    ],
     Platos_SALCHIPAPAS: [
-      { nombre: "CLASICA", precio: 6.5 },
-      { nombre: "MIXTA", precio: 9 },
-      { nombre: "A LO POBRE", precio: 10 },
+      { nombre: "SALCHIPAPA CLASICA", precio: 7 },
+      { nombre: "SALCHIPAPA MIXTA", precio: 10 },
+      { nombre: "SALCHIPAPA A LO POBRE", precio: 11 },
+      { nombre: "SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 12 },
+      { nombre: "SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 12 },
       { nombre: "PORCION ARROZ", precio: 4 },
+    ]
+  },
+
+  Bebidas: {
+    BEBIDAS_M: [
+      { nombre: "personal Inka", precio: 2.5 },
+      { nombre: "Personal coka kola", precio: 2.5 },
+      { nombre: "Gordita", precio: 5 },
+      { nombre: "Yumbo", precio: 5 },
+      { nombre: "1LT INKA", precio: 7 },
+      { nombre: "1LT Coka kola", precio: 7 },
+      { nombre: "1 1/2 LT Inka", precio: 9 },
+      { nombre: "1 1/2 LT Coka kola", precio: 9 },
+    ],
+    BEBIDAS_TIO: [
+      { nombre: "1 Lt Chicha", precio: 7 },
+      { nombre: "1/2 Lt Chicha", precio: 3.5 },
+      { nombre: "Vaso de Chicha", precio: 1.5 },
+      { nombre: "Café", precio: 2.5 },
+      { nombre: "Té", precio: 2 },
+      { nombre: "Anis", precio: 2 },
+      { nombre: "Manzanilla", precio: 2 },
+      { nombre: "Limonada", precio: 6 },
     ]
   },
 
@@ -125,7 +160,11 @@ const platosMenu = {
       { nombre: "LLEVAR - Porción de rachi", precio: 15 },
       { nombre: "LLEVAR - Porción de mollejita", precio: 13 },
       { nombre: "LLEVAR - Porción de pancho", precio: 4 },
+      { nombre: "LLEVAR - 1P. Pancho", precio: 2 },
       { nombre: "LLEVAR - 1P. Anticucho", precio: 7 },
+      { nombre: "LLEVAR - Parrillada", precio: 18 },
+      { nombre: "LLEVAR - Pollo a la parrilla", precio: 16 },
+      { nombre: "LLEVAR - Anticucho de pollo", precio: 13 },
       { nombre: "LLEVAR - Tajada de choclo", precio: 0.50 },
       { nombre: "LLEVAR - Choclo entero", precio: 4 },
     ],
@@ -138,7 +177,6 @@ const platosMenu = {
       { nombre: "LLEVAR - 1P.Anti + choclo", precio: 7.5 },
     ],
     Platos_MIXTOS: [
-      { nombre: "LLEVAR - Pollo a la parrilla", precio: 15 },
       { nombre: "LLEVAR - rachi + Mollejita + choclo", precio: 20 },
       { nombre: "LLEVAR - pancita + Mollejita + choclo", precio: 17 },
       { nombre: "LLEVAR - pancita + rachi + choclo", precio: 17 },
@@ -168,7 +206,6 @@ const platosMenu = {
     ]
   },
 
-
   PARA_LLEVAR_TIO:{
     Platos_CARTA: [
       { nombre: "LLEVAR - LOMO DE CARNE", precio: 13 },
@@ -192,14 +229,12 @@ const platosMenu = {
       { nombre: "LLEVAR - BROASTER POBRE (CON ARROZ) (FRITO) ", precio: 14 },
       { nombre: "LLEVAR - BROASTER POBRE (PURA PAPA) (INGLESA)", precio: 14 },
       { nombre: "LLEVAR - BROASTER POBRE (PURA PAPA) (FRITO)", precio: 14 },
-      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 11 },
-      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 11 },
-  
     ],
     Platos_CHAUFA: [
       { nombre: "LLEVAR - CHAUFA DE POLLO", precio: 10 },
       { nombre: "LLEVAR - CHAUFA DE CARNE", precio: 11 },
       { nombre: "LLEVAR - CHAUFA DE CARNE Y POLLO", precio: 13 },
+      { nombre: "LLEVAR - AEROPUERTO", precio: 11 },
     ],
     Platos_SOPAS: [
       { nombre: "LLEVAR - MINUTA DE CARNE C/ LECHE", precio: 10 },
@@ -219,15 +254,22 @@ const platosMenu = {
       { nombre: "LLEVAR - ENTREPIERNA + PAPA", precio: 10 },
       { nombre: "LLEVAR - PECHO + ARROZ + PAPA", precio: 10 },
       { nombre: "LLEVAR - PECHO + PAPA", precio: 10 },
-      { nombre: "LLEVAR - ALITA + ARROZ + PAPA", precio: 10 },
       { nombre: "LLEVAR - CHICHARRON DE POLLO (PURA PAPA)", precio: 13 },
       { nombre: "LLEVAR - CHICHARRON DE POLLO (CON ARROZ)", precio: 13 },
       { nombre: "LLEVAR - MOSTRITO BROASTER", precio: 11 },
     ],
+    ALITAS: [
+      { nombre: "LLEVAR - 6 ALITAS ACEVICHADAS", precio: 18 },
+      { nombre: "LLEVAR - 6 ALITAS BBQ", precio: 18 },
+      { nombre: "LLEVAR - 6 ALITAS CRISPY", precio: 18 },
+    ],
+    
     Platos_SALCHIPAPAS: [
-      { nombre: "LLEVAR - CLASICA", precio: 6.5 },
-      { nombre: "LLEVAR - MIXTA", precio: 9 },
-      { nombre: "LLEVAR - A LO POBRE", precio: 10 },
+      { nombre: "LLEVAR - SALCHIPAPA CLASICA", precio: 7 },
+      { nombre: "LLEVAR - SALCHIPAPA MIXTA", precio: 10 },
+      { nombre: "LLEVAR - SALCHIPAPA A LO POBRE", precio: 11 },
+      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 12 },
+      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 12 },
       { nombre: "LLEVAR - PORCION ARROZ", precio: 4 },
     ],
     BEBIDAS_TIO: [
@@ -235,32 +277,7 @@ const platosMenu = {
       { nombre: "LLEVAR - 1/2 Lt Chicha", precio: 3.5 },
       { nombre: "LLEVAR - Vaso de Chicha", precio: 1.5 },
     ]
-  },
-
-
-  Bebidas: {
-    BEBIDAS_M: [
-      { nombre: "personal Inka", precio: 2.5 },
-      { nombre: "Personal coka kola", precio: 2.5 },
-      { nombre: "Gordita", precio: 5 },
-      { nombre: "Yumbo", precio: 5 },
-      { nombre: "1LT INKA", precio: 7 },
-      { nombre: "1LT Coka kola", precio: 7 },
-      { nombre: "1 1/2 LT Inka", precio: 9 },
-      { nombre: "1 1/2 LT Coka kola", precio: 9 },
-    ],
-    BEBIDAS_TIO: [
-      { nombre: "1 Lt Chicha", precio: 7 },
-      { nombre: "1/2 Lt Chicha", precio: 3.5 },
-      { nombre: "Vaso de Chicha", precio: 1.5 },
-      { nombre: "Café", precio: 2.5 },
-      { nombre: "Té", precio: 2 },
-      { nombre: "Anis", precio: 2 },
-      { nombre: "Manzanilla", precio: 2 },
-      { nombre: "Limonada", precio: 6 },
-    ],
   }
-
 };
 
 // Estado para contar los platos vendidos

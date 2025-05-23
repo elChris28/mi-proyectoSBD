@@ -26,6 +26,11 @@ const platosMenu = {
       { nombre: "Porción de pancho", precio: 4 },
       { nombre: "1P. Pancho", precio: 2 },
       { nombre: "1P. Anticucho", precio: 7 },
+
+      { nombre: "Parrillada", precio: 18 },
+      { nombre: "Pollo a la parrilla", precio: 16 },
+      { nombre: "Anticucho de pollo", precio: 13 },
+
       { nombre: "Tajada de choclo", precio: 0.50 },
       { nombre: "Choclo entero", precio: 4 },
     ],
@@ -38,7 +43,6 @@ const platosMenu = {
       { nombre: "1P.Anti + choclo", precio: 7.5 },
     ],
     Platos_MIXTOS: [
-      { nombre: "Pollo a la parrilla", precio: 15 },
       { nombre: "rachi + Mollejita + choclo", precio: 20 },
       { nombre: "pancita + Mollejita + choclo", precio: 17 },
       { nombre: "pancita + rachi + choclo", precio: 17 },
@@ -73,7 +77,7 @@ const platosMenu = {
       { nombre: "LOMO DE CARNE", precio: 13 },
       { nombre: "SALTADO DE POLLO", precio: 12 },
       { nombre: "LOMO DE CARNE A LO POBRE", precio: 16 },
-      { nombre: "SALTADO DE POLLO A LO POBRE", precio: 16 },
+      { nombre: "SALTADO DE POLLO A LO POBRE", precio: 15 },
       { nombre: "BISTECK A LO POBRE", precio: 16 },
       { nombre: "POLLO A LA PLANCHA A LO POBRE", precio: 16 },
       { nombre: "POLLO A LA PLANCHA ", precio: 12 },
@@ -82,7 +86,7 @@ const platosMenu = {
     ],
     Platos_POBRE: [
       { nombre: "LOMO DE CARNE A LO POBRE (FRITO)", precio: 16 },
-      { nombre: "SALTADO DE POLLO A LO POBRE (INGLESA)", precio: 16 },
+      { nombre: "SALTADO DE POLLO A LO POBRE (INGLESA)", precio: 15 },
       { nombre: "BISTECK A LO POBRE (FRITO)", precio: 16 },
       { nombre: "BISTECK A LO POBRE (INGLESA)", precio: 16 },
       { nombre: "POLLO A LA PLANCHA A LO POBRE (FRITO)", precio: 16 },
@@ -91,14 +95,13 @@ const platosMenu = {
       { nombre: "BROASTER POBRE (CON ARROZ) (FRITO) ", precio: 14 },
       { nombre: "BROASTER POBRE (PURA PAPA) (INGLESA)", precio: 14 },
       { nombre: "BROASTER POBRE (PURA PAPA) (FRITO)", precio: 14 },
-      { nombre: "SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 11 },
-      { nombre: "SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 11 },
   
     ],
     Platos_CHAUFA: [
       { nombre: "CHAUFA DE POLLO", precio: 10 },
       { nombre: "CHAUFA DE CARNE", precio: 11 },
       { nombre: "CHAUFA DE CARNE Y POLLO", precio: 13 },
+      { nombre: "AEROPUERTO", precio: 11 },
       { nombre: "PORCIÓN DE ARROZ", precio: 4 },
     ],
     Platos_SOPAS: [
@@ -119,15 +122,21 @@ const platosMenu = {
       { nombre: "ENTREPIERNA + PAPA", precio: 10 },
       { nombre: "PECHO + ARROZ + PAPA", precio: 10 },
       { nombre: "PECHO + PAPA", precio: 10 },
-      { nombre: "ALITA + ARROZ + PAPA", precio: 10 },
       { nombre: "CHICHARRON DE POLLO (PURA PAPA)", precio: 13 },
       { nombre: "CHICHARRON DE POLLO (CON ARROZ)", precio: 13 },
       { nombre: "MOSTRITO BROASTER", precio: 11 },
     ],
+    ALITAS: [
+      { nombre: "6 ALITAS ACEVICHADAS", precio: 18 },
+      { nombre: "6 ALITAS BBQ", precio: 18 },
+      { nombre: "6 ALITAS CRISPY", precio: 18 },
+    ],
     Platos_SALCHIPAPAS: [
-      { nombre: "CLASICA", precio: 6.5 },
-      { nombre: "MIXTA", precio: 9 },
-      { nombre: "A LO POBRE", precio: 10 },
+      { nombre: "SALCHIPAPA CLASICA", precio: 7 },
+      { nombre: "SALCHIPAPA MIXTA", precio: 10 },
+      { nombre: "SALCHIPAPA A LO POBRE", precio: 11 },
+      { nombre: "SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 12 },
+      { nombre: "SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 12 },
       { nombre: "PORCION ARROZ", precio: 4 },
     ]
   },
@@ -164,6 +173,9 @@ const platosMenu = {
       { nombre: "LLEVAR - Porción de pancho", precio: 4 },
       { nombre: "LLEVAR - 1P. Pancho", precio: 2 },
       { nombre: "LLEVAR - 1P. Anticucho", precio: 7 },
+      { nombre: "LLEVAR - Parrillada", precio: 18 },
+      { nombre: "LLEVAR - Pollo a la parrilla", precio: 16 },
+      { nombre: "LLEVAR - Anticucho de pollo", precio: 13 },
       { nombre: "LLEVAR - Tajada de choclo", precio: 0.50 },
       { nombre: "LLEVAR - Choclo entero", precio: 4 },
     ],
@@ -176,7 +188,6 @@ const platosMenu = {
       { nombre: "LLEVAR - 1P.Anti + choclo", precio: 7.5 },
     ],
     Platos_MIXTOS: [
-      { nombre: "LLEVAR - Pollo a la parrilla", precio: 15 },
       { nombre: "LLEVAR - rachi + Mollejita + choclo", precio: 20 },
       { nombre: "LLEVAR - pancita + Mollejita + choclo", precio: 17 },
       { nombre: "LLEVAR - pancita + rachi + choclo", precio: 17 },
@@ -229,14 +240,12 @@ const platosMenu = {
       { nombre: "LLEVAR - BROASTER POBRE (CON ARROZ) (FRITO) ", precio: 14 },
       { nombre: "LLEVAR - BROASTER POBRE (PURA PAPA) (INGLESA)", precio: 14 },
       { nombre: "LLEVAR - BROASTER POBRE (PURA PAPA) (FRITO)", precio: 14 },
-      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 11 },
-      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 11 },
-  
     ],
     Platos_CHAUFA: [
       { nombre: "LLEVAR - CHAUFA DE POLLO", precio: 10 },
       { nombre: "LLEVAR - CHAUFA DE CARNE", precio: 11 },
       { nombre: "LLEVAR - CHAUFA DE CARNE Y POLLO", precio: 13 },
+      { nombre: "LLEVAR - AEROPUERTO", precio: 11 },
     ],
     Platos_SOPAS: [
       { nombre: "LLEVAR - MINUTA DE CARNE C/ LECHE", precio: 10 },
@@ -256,15 +265,22 @@ const platosMenu = {
       { nombre: "LLEVAR - ENTREPIERNA + PAPA", precio: 10 },
       { nombre: "LLEVAR - PECHO + ARROZ + PAPA", precio: 10 },
       { nombre: "LLEVAR - PECHO + PAPA", precio: 10 },
-      { nombre: "LLEVAR - ALITA + ARROZ + PAPA", precio: 10 },
       { nombre: "LLEVAR - CHICHARRON DE POLLO (PURA PAPA)", precio: 13 },
       { nombre: "LLEVAR - CHICHARRON DE POLLO (CON ARROZ)", precio: 13 },
       { nombre: "LLEVAR - MOSTRITO BROASTER", precio: 11 },
     ],
+    ALITAS: [
+      { nombre: "LLEVAR - 6 ALITAS ACEVICHADAS", precio: 18 },
+      { nombre: "LLEVAR - 6 ALITAS BBQ", precio: 18 },
+      { nombre: "LLEVAR - 6 ALITAS CRISPY", precio: 18 },
+    ],
+    
     Platos_SALCHIPAPAS: [
-      { nombre: "LLEVAR - CLASICA", precio: 6.5 },
-      { nombre: "LLEVAR - MIXTA", precio: 9 },
-      { nombre: "LLEVAR - A LO POBRE", precio: 10 },
+      { nombre: "LLEVAR - SALCHIPAPA CLASICA", precio: 7 },
+      { nombre: "LLEVAR - SALCHIPAPA MIXTA", precio: 10 },
+      { nombre: "LLEVAR - SALCHIPAPA A LO POBRE", precio: 11 },
+      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (FRITO)", precio: 12 },
+      { nombre: "LLEVAR - SALCHIPAPA MIXTA A LO POBRE (INGLESA)", precio: 12 },
       { nombre: "LLEVAR - PORCION ARROZ", precio: 4 },
     ],
     BEBIDAS_TIO: [
@@ -495,16 +511,13 @@ function mostrarResumenMetodosPago() {
     });
   
     const resumenContainer = document.getElementById("resumen-metodos-pago");
-    resumenContainer.innerHTML = "<h3>Resumen por Método de Pago</h3>";
-  
+    let html = "<h3>Resumen por Método de Pago</h3>";
     for (const metodo in resumen) {
-      resumenContainer.innerHTML += `<p><strong>${metodo}:</strong> S/ ${resumen[metodo].toFixed(2)}</p>`;
+      html += `<p><strong>${metodo}:</strong> S/ ${resumen[metodo].toFixed(2)}</p>`;
     }
-  
-    resumenContainer.innerHTML += `
-      <hr style="margin: 10px 0;">
-      <p><strong>Total General:</strong> <span style="font-size: 18px;">S/ ${totalGeneral.toFixed(2)}</span></p>
-    `;
+    html += `<hr><p><strong>Total General:</strong> <span style="font-size: 18px;">S/ ${totalGeneral.toFixed(2)}</span></p>`;
+    resumenContainer.innerHTML = html;
+
   }
 
 //ELIMINAR PLATOS
@@ -884,6 +897,70 @@ btnLogout.addEventListener("click", () => {
   localStorage.removeItem("userRole");
   window.location.href = "index.html";
 });
+
+//////////////////////////////////////////////////////////////////////
+function emitirBoletaDesdeSistema() {
+  const dni = document.getElementById('dni-cliente').value;
+  const nombre = document.getElementById('nombre-cliente').value;
+
+  const mesaId = document.getElementById('mesa-id').textContent;
+  const mesa = mesas[mesaId]; // ← mesas[] debería ser global o pasado de tu backend
+
+  if (!mesa || mesa.platos.length === 0) {
+    alert('No hay platos registrados en esta mesa');
+    return;
+  }
+
+  // Convertimos los platos a formato Nubefact
+  const items = mesa.platos.map((plato, index) => ({
+    unidad_de_medida: 'NIU',
+    codigo: `P${index + 1}`,
+    descripcion: plato.nombre,
+    cantidad: plato.cantidad,
+    valor_unitario: plato.precio,
+    precio_unitario: plato.precio,
+    subtotal: plato.precio * plato.cantidad,
+    tipo_de_igv: 1,
+    igv: 0,
+    total: plato.precio * plato.cantidad
+  }));
+
+  const total = items.reduce((sum, item) => sum + item.total, 0);
+
+  const data = {
+    dni,
+    nombre,
+    total,
+    items
+  };
+
+  fetch('/emitir-boleta', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.errors) {
+      alert('Error al emitir boleta: ' + JSON.stringify(response.errors));
+    } else {
+      alert('Boleta emitida exitosamente. PDF: ' + response.enlace);
+      window.open(response.enlace, '_blank');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert('Error en el servidor');
+  });
+}
+
+//////////////////////////////////////////////////////////////////////
+
+function mostrarFormularioBoleta() {
+  document.getElementById('formulario-boleta').style.display = 'block';
+}
 
 // Inicializar
 renderizarMesas();

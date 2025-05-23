@@ -37,7 +37,18 @@
 
         <!-- Botón para confirmar el pago -->
         <button id="confirmar-pago" class="btn confirmar-pago">Confirmar Pago</button>
-        
+
+
+        <div id="formulario-boleta" style="display:none;">
+          <h3>Datos para la Boleta</h3>
+          <label>DNI:</label>
+          <input type="text" id="dni-cliente"><br>
+          <label>Nombre:</label>
+          <input type="text" id="nombre-cliente"><br><br>
+          <button onclick="emitirBoletaDesdeSistema()">Emitir Boleta Electrónica</button>
+        </div>
+        <button onclick="mostrarFormularioBoleta()">Emitir boleta</button>
+    
       </div>
 
       <!-- Menú de platos -->
