@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Cocina</title>
+  <link rel="stylesheet" href="styleCocina.css">
+</head>
+<body>
+  <div class="header">
+    <button id="logout-button" class="btn cerrar-sesion">Cerrar Sesión</button>
+  </div>
+
+  <div class="container">
+    <h1>Pedidos en Cocinero - 2</h1>
+    <div id="pedidos-container"></div>
+
+    <h2>Pedidos Completados</h2>
+    <div id="pedidos-listos-container"></div>
+    
+  </div>
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="scriptCocina2.js"></script>
+</body>
+</html>
